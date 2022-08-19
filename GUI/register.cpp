@@ -42,9 +42,15 @@ void Register::on_confirmbtn_clicked()
     QString nickname = this->ui->lineEdit->text();//昵称
     QString password1 = this->ui->lineEdit_2->text();//密码
     QString password2 = this->ui->lineEdit_3->text();//确认密码
-    QFile file0("D:/user.txt");
+    QFile file0("./user.txt");
     file0.open(QIODevice::ReadOnly);
     QTextStream tread(&file0);
+
+    if(nickname==""){
+        this->ui->label->setText("账号不能为空");
+        return;
+    }
+
     while(!tread.atEnd()){
         QString tmp = tread.readLine();
         if(nickname==tmp){
@@ -54,20 +60,19 @@ void Register::on_confirmbtn_clicked()
         }
     }
 
-    if(nickname==""){
-        this->ui->label->setText("昵称不能为空");
-    }
     if(password1.length()<6){
         this->ui->label->setText("密码长度小于六位");
+        return;
     }
     if(password1!=password2){
         this->ui->label->setText("两次密码输入不一致");
         this->ui->lineEdit_2->setText("");
         this->ui->lineEdit_3->setText("");
+        return;
     }
     //C:/Users/86150/Desktop/QtPro819_1/restore/user.txt"
     else{//否则存入user.txt
-    QFile file("D:/user.txt");
+    QFile file("./user.txt");
          if(file.open(QIODevice::WriteOnly|QIODevice::Append) == true) {
                      QTextStream twrite(&file);
                      twrite << nickname << endl << password1 << endl;
@@ -84,12 +89,30 @@ void Register::on_backbtn_clicked()
     this->close();
 }
 
-void Register::on_toolButton_2_clicked()
-{
-    this->close();
+
+void Register::mousePressEvent(QMouseEvent *event){
+    if(event->button() == Qt::LeftButton)
+    {
+        m_point = event->globalPos() - pos(); //计算移动量
+        event->accept();
+    }
+}
+
+void Register::mouseMoveEvent(QMouseEvent *event){
+    if(event->buttons() & Qt::LeftButton)
+    {
+        move(event->globalPos() - m_point);
+        event->accept();
+    }
 }
 
 void Register::on_toolButton_clicked()
 {
     this->showMinimized();
 }
+
+void Register::on_toolButton_2_clicked()
+{
+    this->close();
+}
+

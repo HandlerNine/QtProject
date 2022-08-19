@@ -41,7 +41,7 @@ void Login::on_logbtn_clicked()
 {
     QString log_name = this->ui->accountNum->text();
     QString password = this->ui->passwordNum->text();
-    QFile file0("D:/user.txt");
+    QFile file0("./user.txt");
     file0.open(QIODevice::ReadOnly);
     QTextStream tread(&file0);
     while(!tread.atEnd()){
@@ -71,11 +71,28 @@ void Login::on_registerbtn_clicked()
     this->close();
 }
 
-void Login::on_closebtn_clicked(){
-    this->close();
+void Login::mousePressEvent(QMouseEvent *event){
+    if(event->button() == Qt::LeftButton)
+    {
+        m_point = event->globalPos() - pos(); //计算移动量
+        event->accept();
+    }
+}
+
+void Login::mouseMoveEvent(QMouseEvent *event){
+    if(event->buttons() & Qt::LeftButton)
+    {
+        move(event->globalPos() - m_point);
+        event->accept();
+    }
 }
 
 void Login::on_minimizedbtn_clicked()
 {
     this->showMinimized();
+}
+
+void Login::on_closebtn_clicked()
+{
+    this->close();
 }

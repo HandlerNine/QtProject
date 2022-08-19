@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QGraphicsDropShadowEffect>
+#include <QMouseEvent>
 
 namespace Ui {
 class Register;
@@ -16,17 +17,25 @@ public:
     explicit Register(QWidget *parent = 0);
     ~Register();
 
+protected:
+    void mousePressEvent(QMouseEvent *event);
+
+    void mouseMoveEvent(QMouseEvent *event);
+
 private slots:
     void on_confirmbtn_clicked();
 
     void on_backbtn_clicked();
 
+
     void on_toolButton_2_clicked();
 
     void on_toolButton_clicked();
 
+
 private:
     Ui::Register *ui;
+    QPoint m_point;
 };
 
 #endif // REGISTER_H

@@ -148,12 +148,34 @@ void MainWindow::resizeEvent(QResizeEvent *event){
         dealMessage(messageW, item, messageW->text(), messageW->time(), messageW->userType());
     }
 }
-void MainWindow::on_toolButton_clicked()
-{
-    this->close();
+
+
+void MainWindow::mousePressEvent(QMouseEvent *event){
+    if(event->button() == Qt::LeftButton)
+    {
+        m_point = event->globalPos() - pos(); //计算移动量
+        event->accept();
+    }
 }
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event){
+    if(event->buttons() & Qt::LeftButton)
+    {
+        move(event->globalPos() - m_point);
+        event->accept();
+    }
+}
+
+
 
 void MainWindow::on_toolButton_2_clicked()
 {
     this->showMinimized();
 }
+
+
+void MainWindow::on_toolButton_clicked()
+{
+    this->close();
+}
+
