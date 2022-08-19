@@ -3,8 +3,7 @@
 #include <QSize>
 #include <QDateTime>
 #include <QDebug>
-#include <addfriend.h>
-#include <./GUI/chooseadd.h>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)

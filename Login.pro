@@ -28,29 +28,21 @@ SOURCES += main.cpp \
     GUI/mainwindow.cpp \
     GUI/login.cpp \
     GUI/register.cpp \
-    GUI/addsuccess.cpp \
-    GUI/chooseadd.cpp \
-    GUI/addgroup.cpp \
-    GUI/addfriend.cpp
+
 
 HEADERS  += \
     chatmessage/qnchatmessage.h \
     GUI/mainwindow.h \
     GUI/login.h \
     GUI/register.h \
-    GUI/addsuccess.h \
-    GUI/chooseadd.h \
-    GUI/addgroup.h \
-    GUI/addfriend.h
+
 
 FORMS    += \
     GUI/mainwindow.ui \
     GUI/login.ui \
     GUI/register.ui \
-    GUI/addsuccess.ui \
-    GUI/chooseadd.ui \
-    GUI/addgroup.ui \
-    GUI/addfriend.ui
 
 RESOURCES += \
     images.qrc
+
+DISTFILES +=
