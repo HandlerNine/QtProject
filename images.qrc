@@ -8,5 +8,9 @@
         <file>img/add.png</file>
         <file>img/cc-chat.png</file>
         <file>img/chat.png</file>
+        <file>img/addfd.jpg</file>
+        <file>img/addgroup.jpg</file>
+        <file>img/addsuccess.jpg</file>
+        <file>img/choose.jpg</file>
     </qresource>
 </RCC>

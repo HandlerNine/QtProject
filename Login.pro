@@ -38,7 +38,11 @@ SOURCES += main.cpp \
     Entity/sender.cpp \
     Entity/userinfo.cpp \
     Entity/chatgroup.cpp \
-    GUI/testui.cpp
+    GUI/testui.cpp \
+    GUI/addfriend.cpp \
+    GUI/addgroup.cpp \
+    GUI/addsuccess.cpp \
+    GUI/chooseadd.cpp
 
 HEADERS  += \
     chatmessage/qnchatmessage.h \
@@ -56,13 +60,23 @@ HEADERS  += \
     Entity/sender.h \
     Entity/userinfo.h \
     Entity/chatgroup.h \
-    GUI/testui.h
+    GUI/testui.h \
+    GUI/addfriend.h \
+    GUI/addgroup.h \
+    GUI/addsuccess.h \
+    GUI/chooseadd.h
 
 FORMS    += \
     GUI/mainwindow.ui \
     GUI/login.ui \
     GUI/register.ui \
-    GUI/testui.ui
+    GUI/testui.ui \
+    GUI/addfriend.ui \
+    GUI/addgroup.ui \
+    GUI/addsuccess.ui \
+    GUI/chooseadd.ui
 
 RESOURCES += \
     images.qrc
+
+DISTFILES +=

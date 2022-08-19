@@ -35,6 +35,7 @@ private slots:
 
     void on_toolButton_2_clicked();
 
+    void on_settingButton_clicked();
 
 private:
     Ui::MainWindow *ui;
