@@ -237,6 +237,12 @@ font-family:&quot;Courier New&quot;;
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="styleSheet">
     <string notr="true">background:transparent;</string>
    </property>
@@ -255,6 +261,12 @@ font-family:&quot;Courier New&quot;;
      <width>31</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">background:transparent;</string>

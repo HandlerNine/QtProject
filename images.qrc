@@ -8,7 +8,5 @@
         <file>img/add.png</file>
         <file>img/cc-chat.png</file>
         <file>img/chat.png</file>
-        <file>../QtPros/hello/myico.ico</file>
-        <file>img/myico.ico</file>
     </qresource>
 </RCC>
