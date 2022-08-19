@@ -11,7 +11,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->resize(1150,800);
     //ui->centralWidget->setStyleSheet("background-color:white;");
-
+    this->setWindowFlags(this->windowFlags()|Qt::FramelessWindowHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint);
+    ui->pushButton->setStyleSheet("QPushButton{border:2px groove black;border-radius:8px}"
+                              "QPushButton:hover{background-color:rgb(231, 241, 251); color: black;}"
+                              "QPushButton:pressed{background-color:rgb(204, 228, 247);border-style: inset;}"
+                             );
 }
 
 MainWindow::~MainWindow()
