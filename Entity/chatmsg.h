@@ -1,22 +1,22 @@
 #ifndef CHATMSG_H
 #define CHATMSG_H
 
-#include <QObject>
 #include "msg.h"
+#include <QByteArray>
+#include <QDateTime>
+#include <QObject>
 
-class ChatMsg
-{
+class ChatMsg {
 
 public:
-    ChatMsg(){}
+    ChatMsg() { }
     explicit ChatMsg(quint32 sender,
-                    quint32 receiver,
-                    const QString& content
-                    );
+        quint32 receiver,
+        const QString& content);
     // get_info
     quint32 getSender() const;
     quint32 getReceiver() const;
-    QString & getContent();
+    QString& getContent();
     QString getSendTime();
     // friend class DataDB;
 
@@ -27,8 +27,8 @@ public:
 private:
     quint32 _sender;
     quint32 _receiver;
-    QString _content;
     QString _send_time; //发送消息的时间
+    QString _content;
 };
 
 #endif // CHATMSG_H
