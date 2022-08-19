@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/Customer Copy.png</file>
+        <file>img/CustomerService.png</file>
+        <file>img/loading4.gif</file>
+        <file>img/log.png</file>
+        <file>img/register.png</file>
+        <file>img/add.png</file>
+        <file>img/cc-chat.png</file>
+        <file>img/chat.png</file>
+    </qresource>
+</RCC>
