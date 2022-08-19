@@ -168,7 +168,7 @@ font-family:&quot;Courier New&quot;;
     <string>Your Password.</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="le_ensure">
+  <widget class="QLineEdit" name="lineEdit_3">
    <property name="geometry">
     <rect>
      <x>580</x>

@@ -39,9 +39,29 @@ Login::~Login()
 
 void Login::on_logbtn_clicked()
 {
-    MainWindow *mw = new MainWindow();
-    mw->show();
-    this->close();
+    QString log_name = this->ui->accountNum->text();
+    QString password = this->ui->passwordNum->text();
+    QFile file0("D:/user.txt");
+    file0.open(QIODevice::ReadOnly);
+    QTextStream tread(&file0);
+    while(!tread.atEnd()){
+        QString tmp = tread.readLine();
+        if(log_name==tmp){
+            QString tmp1 = tread.readLine();
+            if(password!=tmp1){
+                this->ui->Welcome->setText("密码错误！");
+                return;
+            }
+            else{
+                MainWindow *mw = new MainWindow();
+                mw->show();
+                this->close();
+                return;
+            }
+        }
+    }
+    this->ui->Welcome->setText("账号不存在！");
+    return;
 }
 
 void Login::on_registerbtn_clicked()
