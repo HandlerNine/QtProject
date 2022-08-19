@@ -148,7 +148,12 @@ void MainWindow::resizeEvent(QResizeEvent *event){
         dealMessage(messageW, item, messageW->text(), messageW->time(), messageW->userType());
     }
 }
+void MainWindow::on_toolButton_clicked()
+{
+    this->close();
+}
 
-
-
-
+void MainWindow::on_toolButton_2_clicked()
+{
+    this->showMinimized();
+}

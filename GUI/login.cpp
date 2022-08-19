@@ -50,3 +50,12 @@ void Login::on_registerbtn_clicked()
     r->show();
     this->close();
 }
+
+void Login::on_closebtn_clicked(){
+    this->close();
+}
+
+void Login::on_minimizedbtn_clicked()
+{
+    this->showMinimized();
+}

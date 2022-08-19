@@ -25,6 +25,8 @@ private slots:
 
     void on_registerbtn_clicked();
 
+    void on_closebtn_clicked();
+    void on_minimizedbtn_clicked();
 
 private:
     Ui::Login *ui;

@@ -50,3 +50,13 @@ void Register::on_backbtn_clicked()
     l->show();
     this->close();
 }
+
+void Register::on_toolButton_2_clicked()
+{
+    this->close();
+}
+
+void Register::on_toolButton_clicked()
+{
+    this->showMinimized();
+}
