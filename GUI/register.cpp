@@ -75,6 +75,7 @@ void Register::on_confirmbtn_clicked()
          }
 
     }
+
 }
 
 void Register::on_backbtn_clicked()

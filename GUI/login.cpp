@@ -39,7 +39,7 @@ Login::~Login()
 
 void Login::on_logbtn_clicked()
 {
-    QString log_name = this->ui->accountID->text();
+    QString log_name = this->ui->accountNum->text();
     QString password = this->ui->passwordNum->text();
     QFile file0("C:/Users/86150/Desktop/QtPro819_1/restore/user.txt");
     file0.open(QIODevice::ReadOnly);
