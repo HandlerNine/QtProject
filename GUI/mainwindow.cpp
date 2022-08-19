@@ -3,7 +3,8 @@
 #include <QSize>
 #include <QDateTime>
 #include <QDebug>
-
+#include <addfriend.h>
+#include <./GUI/chooseadd.h>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -179,3 +180,8 @@ void MainWindow::on_toolButton_clicked()
     this->close();
 }
 
+void MainWindow::on_settingButton_clicked()
+{
+    chooseadd *l = new chooseadd();
+    l->show();//进入选择页面
+}
