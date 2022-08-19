@@ -21,6 +21,10 @@ private slots:
 
     void on_backbtn_clicked();
 
+    void on_toolButton_2_clicked();
+
+    void on_toolButton_clicked();
+
 private:
     Ui::Register *ui;
 };
