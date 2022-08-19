@@ -42,3 +42,5 @@ FORMS    += \
 
 RESOURCES += \
     images.qrc
+
+DISTFILES +=
