@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,19 +28,55 @@ SOURCES += main.cpp \
     GUI/mainwindow.cpp \
     GUI/login.cpp \
     GUI/register.cpp \
-
+    Entity/chatmsg.cpp \
+    Entity/chatprivate.cpp \
+    Entity/friendcenter.cpp \
+    Entity/group.cpp \
+    Entity/groupcenter.cpp \
+    Entity/msg.cpp \
+    Entity/receiver.cpp \
+    Entity/sender.cpp \
+    Entity/userinfo.cpp \
+    Entity/chatgroup.cpp \
+    GUI/testui.cpp \
+    GUI/addfriend.cpp \
+    GUI/addgroup.cpp \
+    GUI/addsuccess.cpp \
+    GUI/chooseadd.cpp \
+    Network/tcpclient.cpp
 
 HEADERS  += \
     chatmessage/qnchatmessage.h \
     GUI/mainwindow.h \
     GUI/login.h \
     GUI/register.h \
-
+    Entity/chatmsg.h \
+    Entity/chatprivate.h \
+    Entity/friendcenter.h \
+    Entity/group.h \
+    Entity/groupcenter.h \
+    Entity/msg.h \
+    Entity/msgtype.h \
+    Entity/receiver.h \
+    Entity/sender.h \
+    Entity/userinfo.h \
+    Entity/chatgroup.h \
+    GUI/testui.h \
+    GUI/addfriend.h \
+    GUI/addgroup.h \
+    GUI/addsuccess.h \
+    GUI/chooseadd.h \
+    Network/tcpclient.h
 
 FORMS    += \
     GUI/mainwindow.ui \
     GUI/login.ui \
     GUI/register.ui \
+    GUI/testui.ui \
+    GUI/addfriend.ui \
+    GUI/addgroup.ui \
+    GUI/addsuccess.ui \
+    GUI/chooseadd.ui
 
 RESOURCES += \
     images.qrc

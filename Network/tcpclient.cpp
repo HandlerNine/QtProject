@@ -1,5 +1,5 @@
 #include "tcpclient.h"
-#include <QHostAddress>
+#include "qhostaddress.h"
 #include <QDataStream>
 #include <QString>
 
