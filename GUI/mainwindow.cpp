@@ -18,16 +18,25 @@ MainWindow::MainWindow(QWidget *parent) :
                               "QPushButton:hover{background-color:rgb(231, 241, 251); color: black;}"
                               "QPushButton:pressed{background-color:rgb(204, 228, 247);border-style: inset;}"
                              );
+
+    //开始连接
+    myclient = new TcpClient(this);
+    if(myclient->connectToServer())
+        qDebug() << "已连接到服务器！" ;
+    else
+        qDebug() << "未连接服务器！" ;
 }
 
 MainWindow::~MainWindow()
 {
+    delete myclient;
     delete ui;
 }
 
 void MainWindow::on_pushButton_clicked()
 {
     QString msg = ui->textEdit->toPlainText();
+    myclient->sendMsg(msg);
     ui->textEdit->setText("");
     QString time = QString::number(QDateTime::currentDateTime().toTime_t()); //时间戳
 
@@ -169,13 +178,13 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event){
 }
 
 
-
+//窗口最小化
 void MainWindow::on_toolButton_2_clicked()
 {
     this->showMinimized();
 }
 
-
+//关闭窗口
 void MainWindow::on_toolButton_clicked()
 {
     this->close();

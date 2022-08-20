@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -42,7 +42,8 @@ SOURCES += main.cpp \
     GUI/addfriend.cpp \
     GUI/addgroup.cpp \
     GUI/addsuccess.cpp \
-    GUI/chooseadd.cpp
+    GUI/chooseadd.cpp \
+    Network/tcpclient.cpp
 
 HEADERS  += \
     chatmessage/qnchatmessage.h \
@@ -64,7 +65,8 @@ HEADERS  += \
     GUI/addfriend.h \
     GUI/addgroup.h \
     GUI/addsuccess.h \
-    GUI/chooseadd.h
+    GUI/chooseadd.h \
+    Network/tcpclient.h
 
 FORMS    += \
     GUI/mainwindow.ui \

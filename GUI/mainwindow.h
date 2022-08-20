@@ -5,6 +5,7 @@
 #include <QListWidgetItem>
 #include <QMouseEvent>
 #include "chatmessage/qnchatmessage.h"
+#include "Network/tcpclient.h"
 
 namespace Ui {
 class MainWindow;
@@ -39,6 +40,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    TcpClient *myclient; //记录本地服务器socket
     QPoint m_point;
 };
 
