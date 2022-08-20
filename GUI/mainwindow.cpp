@@ -6,6 +6,7 @@
 #include "GUI/addfriend.h"
 #include "GUI/chooseadd.h"
 
+#include "./Entity/friendlist.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -188,10 +189,53 @@ void MainWindow::on_toolButton_2_clicked()
 void MainWindow::on_toolButton_clicked()
 {
     this->close();
+    QApplication *app;
+    app->quit();//关闭整个程序 code by xwb
 }
 
 void MainWindow::on_settingButton_clicked()
 {
     chooseadd *l = new chooseadd();
     l->show();//进入选择页面
+}
+
+void MainWindow::on_singleButton_clicked()//显示好友列表
+{
+    ui->friendList->clear();
+    ui->friendList->setFixedWidth(300);
+    QFile file0("./added_friend.txt");
+    file0.open(QIODevice::ReadOnly);
+    QTextStream tread(&file0);
+    while(!tread.atEnd()){
+        QString tmp = tread.readLine();
+        QListWidgetItem *item = new QListWidgetItem(tmp);//创建一个item
+        item->setSizeHint(QSize(300,75));//item大小
+        item->setText(tmp);//内容
+        item->setFont(QFont("ZYSong18030",12));//字体及大小
+        item->setIcon(QIcon(":/img/Customer Copy.png"));//图片
+        item->setTextAlignment(Qt::AlignCenter);//字体位置
+        item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);//效果
+        ui->friendList->addItem(item);
+    }
+
+}
+
+void MainWindow::on_moreButton_clicked()//显示群聊列表
+{
+    ui->friendList->clear();
+    ui->friendList->setFixedWidth(300);
+    QFile file0("./added_group.txt");
+    file0.open(QIODevice::ReadOnly);
+    QTextStream tread(&file0);
+    while(!tread.atEnd()){
+        QString tmp = tread.readLine();
+        QListWidgetItem *item = new QListWidgetItem(tmp);//创建一个item
+        item->setSizeHint(QSize(300,75));//item大小
+        item->setText(tmp);//内容
+        item->setFont(QFont("ZYSong18030",12));//字体及大小
+        item->setIcon(QIcon(":/img/grouphead.jpg"));//图片
+        item->setTextAlignment(Qt::AlignCenter);//字体位置
+        item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);//效果
+        ui->friendList->addItem(item);
+    }
 }

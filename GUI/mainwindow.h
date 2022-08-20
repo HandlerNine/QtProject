@@ -38,6 +38,10 @@ private slots:
 
     void on_settingButton_clicked();
 
+    void on_singleButton_clicked();
+
+    void on_moreButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     TcpClient *myclient; //记录本地服务器socket

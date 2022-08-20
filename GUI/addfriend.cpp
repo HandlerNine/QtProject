@@ -2,6 +2,11 @@
 #include "ui_addfriend.h"
 #include "./GUI/mainwindow.h"
 #include"./GUI/addsuccess.h"
+#include "mainwindow.h"
+#include "./Entity/friendlist.h"
+#include "./Entity/added_friend.h"
+#include <./GUI/login.h>
+
 addfriend::addfriend(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::addfriend)
@@ -37,6 +42,13 @@ void addfriend::on_pushButton_clicked()
 {
     QString friendID = ui->add_num->text();
     //之后搜索好友进行添加，这里需要补充
+    added_friend lm(friendID);
+    frdlst.Add_Fd(lm);
+    QFile file("./added_friend.txt");
+    if(file.open(QIODevice::WriteOnly|QIODevice::Append) == true) {
+                     QTextStream twrite1(&file);
+                     twrite1 << friendID <<endl;
+    }
     addsuccess *m = new addsuccess();
     m->show();
 }

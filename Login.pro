@@ -43,7 +43,11 @@ SOURCES += main.cpp \
     GUI/addgroup.cpp \
     GUI/addsuccess.cpp \
     GUI/chooseadd.cpp \
-    Network/tcpclient.cpp
+    Network/tcpclient.cpp \
+    Entity/added_friend.cpp \
+    Entity/added_group.cpp \
+    Entity/friendlist.cpp \
+    Entity/grouplist.cpp
 
 HEADERS  += \
     chatmessage/qnchatmessage.h \
@@ -66,7 +70,11 @@ HEADERS  += \
     GUI/addgroup.h \
     GUI/addsuccess.h \
     GUI/chooseadd.h \
-    Network/tcpclient.h
+    Network/tcpclient.h \
+    Entity/added_friend.h \
+    Entity/added_group.h \
+    Entity/friendlist.h \
+    Entity/grouplist.h
 
 FORMS    += \
     GUI/mainwindow.ui \

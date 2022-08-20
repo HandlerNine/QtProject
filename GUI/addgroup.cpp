@@ -1,6 +1,16 @@
 #include "addgroup.h"
 #include "ui_addgroup.h"
 #include "./GUI/addsuccess.h"
+#include "./Entity/added_group.h"
+#include "addfriend.h"
+#include "ui_addfriend.h"
+#include "./GUI/mainwindow.h"
+#include"./GUI/addsuccess.h"
+#include "mainwindow.h"
+#include "./Entity/friendlist.h"
+#include "./Entity/added_friend.h"
+#include <./GUI/login.h>
+
 addgroup::addgroup(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::addgroup)
@@ -31,6 +41,13 @@ void addgroup::on_pushButton_6_clicked()
 {
     QString GroupID = ui->add_num->text();
     //之后搜索群号进行添加，这里需要补充
+    added_group lm(GroupID);
+    grplst.Add_Group(lm);
+    QFile file("./added_group.txt");
+    if(file.open(QIODevice::WriteOnly|QIODevice::Append) == true) {
+                     QTextStream twrite1(&file);
+                     twrite1 << GroupID <<endl;
+    }
     addsuccess *m = new addsuccess();
     m->show();
 }
