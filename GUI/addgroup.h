@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include <./Entity/grouplist.h>
+
 namespace Ui {
 class addgroup;
 }
@@ -14,6 +16,7 @@ class addgroup : public QWidget
 public:
     explicit addgroup(QWidget *parent = 0);
     ~addgroup();
+    grouplist grplst;
 
 private slots:
     void on_pushButton_6_clicked();
