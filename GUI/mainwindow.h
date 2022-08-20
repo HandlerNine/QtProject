@@ -19,6 +19,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void show_sendMessage(QString msg);
+    void show_recvMessage(QString msg);
+
     void dealMessage(QNChatMessage *messageW, QListWidgetItem *item, QString text, QString time, QNChatMessage::User_Type type);
     void dealMessageTime(QString curMsgTime);
 protected:
@@ -31,7 +34,6 @@ protected:
 private slots:
     void on_pushButton_clicked();
 
-
     void on_toolButton_clicked();
 
     void on_toolButton_2_clicked();
@@ -41,6 +43,8 @@ private slots:
     void on_singleButton_clicked();
 
     void on_moreButton_clicked();
+
+    void recvMsg();
 
 private:
     Ui::MainWindow *ui;

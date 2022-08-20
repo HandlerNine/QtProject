@@ -19,9 +19,6 @@ public:
     //发送消息
     void sendMsg(QString msg);
 
-public slots:
-    void recvMsg();
-
 };
 
 #endif // TCPCLIENT_H

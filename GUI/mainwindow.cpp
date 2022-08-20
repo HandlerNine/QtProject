@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->resize(1150,800);
-    //ui->centralWidget->setStyleSheet("background-color:white;");
     this->setWindowFlags(this->windowFlags()|Qt::FramelessWindowHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint);
     ui->pushButton->setStyleSheet("QPushButton{border:2px groove black;border-radius:8px}"
                               "QPushButton:hover{background-color:rgb(231, 241, 251); color: black;}"
@@ -22,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //开始连接
     myclient = new TcpClient(this);
+    connect(myclient, SIGNAL(readyRead()),this, SLOT(recvMsg()));
+
     if(myclient->connectToServer())
         qDebug() << "已连接到服务器！" ;
     else
@@ -37,48 +38,48 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     QString msg = ui->textEdit->toPlainText();
+    ui->textEdit->setText("");
+    QString time = QString::number(QDateTime::currentDateTime().toTime_t()); //时间戳
+    qDebug()<<"addMessage" << msg << time << ui->listWidget->count();
+    if(ui->listWidget->count()%2) {
+        show_sendMessage(msg);
+    } else {
+        show_recvMessage(msg);
+    }
+    ui->listWidget->setCurrentRow(ui->listWidget->count()-1);
+}
+
+//发送消息并显示
+void MainWindow::show_sendMessage(QString msg)
+{
     myclient->sendMsg(msg);
     ui->textEdit->setText("");
     QString time = QString::number(QDateTime::currentDateTime().toTime_t()); //时间戳
-
-    bool isSending = true; // 发送中
-
     qDebug()<<"addMessage" << msg << time << ui->listWidget->count();
-    if(ui->listWidget->count()%2) {
-        if(isSending) {
-            dealMessageTime(time);
+    dealMessageTime(time);
 
-            QNChatMessage* messageW = new QNChatMessage(ui->listWidget->parentWidget());
-            QListWidgetItem* item = new QListWidgetItem(ui->listWidget);
-            dealMessage(messageW, item, msg, time, QNChatMessage::User_Me);
-        } else {
-            bool isOver = true;
-            for(int i = ui->listWidget->count() - 1; i > 0; i--) {
-                QNChatMessage* messageW = (QNChatMessage*)ui->listWidget->itemWidget(ui->listWidget->item(i));
-                if(messageW->text() == msg) {
-                    isOver = false;
-                    messageW->setTextSuccess();
-                }
-            }
-            if(isOver) {
-                dealMessageTime(time);
+    QNChatMessage* messageW = new QNChatMessage(ui->listWidget->parentWidget());
+    QListWidgetItem* item = new QListWidgetItem(ui->listWidget);
+    dealMessage(messageW, item, msg, time, QNChatMessage::User_Me);
+}
 
-                QNChatMessage* messageW = new QNChatMessage(ui->listWidget->parentWidget());
-                QListWidgetItem* item = new QListWidgetItem(ui->listWidget);
-                dealMessage(messageW, item, msg, time, QNChatMessage::User_Me);
-                messageW->setTextSuccess();
-            }
-        }
-    } else {
-        if(msg != "") {
-            dealMessageTime(time);
+// 接收消息并显示
+void MainWindow::show_recvMessage(QString msg)
+{
+    QString time = QString::number(QDateTime::currentDateTime().toTime_t()); //时间戳
+    if(msg != "") {
+        dealMessageTime(time);
 
-            QNChatMessage* messageW = new QNChatMessage(ui->listWidget->parentWidget());
-            QListWidgetItem* item = new QListWidgetItem(ui->listWidget);
-            dealMessage(messageW, item, msg, time, QNChatMessage::User_She);
-        }
+        QNChatMessage* messageW = new QNChatMessage(ui->listWidget->parentWidget());
+        QListWidgetItem* item = new QListWidgetItem(ui->listWidget);
+        dealMessage(messageW, item, msg, time, QNChatMessage::User_She);
     }
-    ui->listWidget->setCurrentRow(ui->listWidget->count()-1);
+}
+
+void MainWindow::recvMsg(){
+    QByteArray myarray = myclient->readAll();
+    qDebug()<< myarray;
+    show_recvMessage(myarray);
 }
 
 void MainWindow::dealMessage(QNChatMessage *messageW, QListWidgetItem *item, QString text, QString time,  QNChatMessage::User_Type type)

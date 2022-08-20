@@ -6,7 +6,6 @@
 
 TcpClient::TcpClient(QObject *parent):QTcpSocket(parent)
 {
-    connect(this, SIGNAL(readyRead()),this, SLOT(recvMsg()));
 }
 
 //连接
@@ -15,7 +14,7 @@ bool TcpClient::connectToServer(QString ip, quint16 port){
     abort();
     connectToHost(ip,port);
 
-    if (waitForConnected(30000))  // 连接成功
+    if (waitForConnected(3000))  // 连接成功
     {
         return true;
     }else{
@@ -23,7 +22,7 @@ bool TcpClient::connectToServer(QString ip, quint16 port){
     }
 }
 
-//发送数据
+//发送数据(接收数据在mainwindow.cpp)
 void TcpClient::sendMsg(QString msg){
     waitForBytesWritten();
     QByteArray send_msg = msg.toUtf8();
@@ -31,8 +30,3 @@ void TcpClient::sendMsg(QString msg){
     qDebug()<<"发送数据:"+msg;
 }
 
-//接收数据
-void TcpClient::recvMsg(){
-    QByteArray myarray = readAll();
-    qDebug()<< myarray;
-}

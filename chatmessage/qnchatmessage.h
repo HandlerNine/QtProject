@@ -67,7 +67,7 @@ private:
     QPixmap m_rightPixmap;
     QLabel* m_loading = Q_NULLPTR;
     QMovie* m_loadingMovie = Q_NULLPTR;
-    bool m_isSending = false;
+    bool m_isSending = true;
 };
 
 #endif // QNCHATMESSAGE_H
