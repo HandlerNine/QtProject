@@ -9,7 +9,7 @@
 #include <QObject>
 
 class UserInfo {
-public:
+private:
     explicit UserInfo(quint32 id = 0x0000,
         QString user_name = "",
         QString user_password = ""
