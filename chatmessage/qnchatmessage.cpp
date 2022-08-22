@@ -28,8 +28,8 @@ QNChatMessage::QNChatMessage(QWidget *parent) : QWidget(parent)
 //    te_font.setLetterSpacing(QFont::PercentageSpacing, 100);          //300%,100为默认  //设置字间距%
 //    te_font.setLetterSpacing(QFont::AbsoluteSpacing, 0);             //设置字间距为3像素 //设置字间距像素值
     this->setFont(te_font);
-    m_leftPixmap = QPixmap(":/img/Customer Copy.png");
-    m_rightPixmap = QPixmap(":/img/CustomerService.png");
+    m_leftPixmap = QPixmap(":/img/his.png");
+    m_rightPixmap = QPixmap(":/img/me.png");
 
     m_loadingMovie = new QMovie(this);
     m_loadingMovie->setFileName(":/img/loading4.gif");

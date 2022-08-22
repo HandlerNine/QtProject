@@ -90,3 +90,29 @@ QByteArray UserInfo::toQByteArray()
 
     return qba;
 }
+
+// QByteArray UserInfo::OpenFiles(QString fileName)
+//{
+//     QFile file(fileName);
+//     file.open((QIODevice::ReadWrite));
+//     QByteArray temp = file.read(file.bytesAvailable());
+//     file.close();
+//     return temp;
+// }
+
+QList<UserInfo> UserInfo::OpenFile(QString fileName) // 根据文件地址,返回userinfo的list
+{
+    QList<UserInfo> ls;
+    QFile file(fileName);
+
+    return ls;
+}
+
+void UserInfo::WriteFile(QString fileName, UserInfo tmp_user)
+{
+    QFile file(fileName);
+    file.open((QIODevice::ReadWrite | QIODevice::Append)); //以追写方式写入
+    QByteArray data = tmp_user.toQByteArray();
+    file.write(data);
+    file.close();
+}

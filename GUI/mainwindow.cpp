@@ -5,8 +5,10 @@
 #include <QDebug>
 #include "GUI/addfriend.h"
 #include "GUI/chooseadd.h"
+#include "Entity/userinfo.h"
 
 #include "./Entity/friendlist.h"
+#include "chatmessage/qnchatmessage.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -18,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
                               "QPushButton:hover{background-color:rgb(231, 241, 251); color: black;}"
                               "QPushButton:pressed{background-color:rgb(204, 228, 247);border-style: inset;}"
                              );
-
     //开始连接
     myclient = new TcpClient(this);
     connect(myclient, SIGNAL(readyRead()),this, SLOT(recvMsg()));
@@ -27,6 +28,9 @@ MainWindow::MainWindow(QWidget *parent) :
         qDebug() << "已连接到服务器！" ;
     else
         qDebug() << "未连接服务器！" ;
+    //这里显示此id值和account值
+    //ui->label_id->setText();
+    //ui->label_account->setText();
 }
 
 MainWindow::~MainWindow()
@@ -37,24 +41,27 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
+    //测试发消息专用
     QString msg = ui->textEdit->toPlainText();
-    ui->textEdit->setText("");
-    QString time = QString::number(QDateTime::currentDateTime().toTime_t()); //时间戳
-    qDebug()<<"addMessage" << msg << time << ui->listWidget->count();
-    if(ui->listWidget->count()%2) {
-        show_sendMessage(msg);
+    if(ui->listWidget->count()%2 == 0) {
+        sendMsg();
     } else {
         show_recvMessage(msg);
     }
+    //实际发消息
+//    sendMsg();
     ui->listWidget->setCurrentRow(ui->listWidget->count()-1);
+    ui->textEdit->clear();
 }
 
-//发送消息并显示
+//显示发送的消息
 void MainWindow::show_sendMessage(QString msg)
 {
-    myclient->sendMsg(msg);
-    ui->textEdit->setText("");
+    //先放这
     QString time = QString::number(QDateTime::currentDateTime().toTime_t()); //时间戳
+    ui->textEdit->setText("");
+
+
     qDebug()<<"addMessage" << msg << time << ui->listWidget->count();
     dealMessageTime(time);
 
@@ -63,9 +70,10 @@ void MainWindow::show_sendMessage(QString msg)
     dealMessage(messageW, item, msg, time, QNChatMessage::User_Me);
 }
 
-// 接收消息并显示
+// 显示接收的消息
 void MainWindow::show_recvMessage(QString msg)
 {
+    //时间先放这
     QString time = QString::number(QDateTime::currentDateTime().toTime_t()); //时间戳
     if(msg != "") {
         dealMessageTime(time);
@@ -76,6 +84,17 @@ void MainWindow::show_recvMessage(QString msg)
     }
 }
 
+//发送消息
+void MainWindow::sendMsg(){
+    QString msg = ui->textEdit->toPlainText();
+    ui->textEdit->setText("");
+    QString time = QString::number(QDateTime::currentDateTime().toTime_t()); //时间戳
+
+    myclient->sendMsg(msg);
+    show_sendMessage(msg);
+}
+
+//接收消息
 void MainWindow::recvMsg(){
     QByteArray myarray = myclient->readAll();
     qDebug()<< myarray;
@@ -129,7 +148,7 @@ void MainWindow::resizeEvent(QResizeEvent *event){
     ui->frame_3->setGeometry(325,0,mysize.width()-325,mysize.height());
     //设置各个控件
     //头像
-    ui->coverButton->setIcon(QIcon(":/img/Customer Copy.png"));
+    ui->coverButton->setIcon(QIcon(":/img/me.png"));
     ui->coverButton->setIconSize(QSize(ui->coverButton->width(),ui->coverButton->height()));
     ui->coverButton->setStyleSheet("border:none;");
     //私聊
@@ -146,11 +165,8 @@ void MainWindow::resizeEvent(QResizeEvent *event){
     ui->settingButton->setIconSize(QSize(ui->coverButton->width(),ui->coverButton->height()));
     ui->settingButton->setStyleSheet("border:none;");
     //
-    ui->searchEdit->setGeometry(15,30,220,20);
     ui->friendList->setGeometry(0,90,250,mysize.height()-90);
-    ui->listWidget->setGeometry(0,0,mysize.width()-325,mysize.height()-210);
-    ui->emojiButton->setGeometry(0,mysize.height()-210,47,30);
-    ui->picButton->setGeometry(47,mysize.height()-210,47,30);
+    ui->listWidget->setGeometry(0,0,mysize.width()-325,mysize.height()-210);;
     ui->textEdit->setGeometry(0,mysize.height()-180,mysize.width()-325,180);
     ui->pushButton->setGeometry(mysize.width()-460,mysize.height()-50,93,28);
     //设置信息
@@ -213,7 +229,7 @@ void MainWindow::on_singleButton_clicked()//显示好友列表
         item->setSizeHint(QSize(300,75));//item大小
         item->setText(tmp);//内容
         item->setFont(QFont("ZYSong18030",12));//字体及大小
-        item->setIcon(QIcon(":/img/Customer Copy.png"));//图片
+        item->setIcon(QIcon(":/img/his.png"));//图片
         item->setTextAlignment(Qt::AlignCenter);//字体位置
         item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);//效果
         ui->friendList->addItem(item);
@@ -239,4 +255,71 @@ void MainWindow::on_moreButton_clicked()//显示群聊列表
         item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);//效果
         ui->friendList->addItem(item);
     }
+}
+
+void MainWindow::on_shakebtn_clicked()
+{
+    pShakeAnimation= new QPropertyAnimation(this,"pos");
+    QPoint pos = this->pos();
+      //动画还没有结束就先立马停止，防止用户不停的点击
+      if(pShakeAnimation->state() == QPropertyAnimation::Running)
+        {
+          pShakeAnimation->stop();
+        }
+      pShakeAnimation->setDuration(600);
+      pShakeAnimation->setStartValue(pos);
+
+      int offset =0;
+      double dOffset = (double)1/30;
+      double dIndex =dOffset;
+      for(int i=1;i<30;i++){
+          offset = i%2==0?-10:10;
+          dIndex += dOffset;
+          pShakeAnimation->setKeyValueAt(dIndex,pos + QPoint((int)offset,(int)offset));
+        }
+
+      pShakeAnimation->setEndValue(pos);
+      pShakeAnimation->start();
+}
+
+void MainWindow::on_FixHeadbtn_clicked()
+{
+    if(this->i == 5)
+    {
+        this->i = 0;
+    }
+    if(this->i == 0)
+    {
+        this->ui->textEdit->setText("我是爸妈捡来的，现在18岁，不是亲生的自己也知道。我姐今年27了读研读博所以现在还没谈男朋友，"
+                                    "我妈突然就跟我说，等你毕业了，你姐姐要还没有对象你就跟你姐结婚吧。我当时还在看书听到这话吓得我魂都丢了，"
+                                    "果断说不行，我妈就说先别急听我讲完!你要和你姐结婚了，不用担心你姐对你不好，第二你姐姐也不会有婆媳矛盾，"
+                                    "第三也不会因为任何原因离开你离开家。第四你不用养双方父母，将来爸妈生病了你们可以一起照顾，"
+                                    "第五知根知底你姐姐还没谈过对象是干净的。她讲完我就沉默了，确实除了不相爱以外全是利没有弊，我找不出任何反驳的理由，"
+                                    "本来想说我们没有那种感情只有亲情，母亲后来就说你以后也不一定就能遇到爱你爱的死去活来的人，"
+                                    "大家相亲结婚不就是奔着凑合着过的念头才在一起吗？我现在就挺乱的吧，也不知道咋整不知道该怎么办才好……"
+                                    "正当我打字到这里的时候，我有点饿了想吃肯德基，今天疯狂星期四，请我吃");
+    }
+    if(this->i == 1)
+    {
+        this->ui->textEdit->setText("我都明白 我是选项E 我是planB 是分叉的头发 洗衣机流出的泡沫 超市里被捏碎的饼干 是吃腻的奶油 "
+                                    "是落寞的城市 是地上的草 我是被踩踏的 是西装的备用扣 是被雨淋湿的小狗  是腐烂的橘子 是过期的牛奶 "
+                                    "是断线的风筝 是被随意丢弃的向日葵 是沉默寡言的小朋友 所以能v我40吗 今天肯德基疯狂星期四");
+    }
+    if(this->i == 2)
+    {
+        this->ui->textEdit->setText("你好，我是奥特曼，我正在外星和敌人战斗！没有能量了！听说今天肯德基疯狂星期四，"
+                                    "我现在需要有人给我带29.9块钱4个的吮指原味鸡补充能量。恢复后我请你来外星做客。");
+    }
+    if(this->i == 3)
+    {
+        this->ui->textEdit->setText("而生的，就算它们死了，立刻又会有同类补上，就算你一个朋友都没有，你还有三只鸡。"
+                                    "今天是肯德基疯狂星期四，V我60，我帮你去谢谢鸡");
+    }
+    if(this->i == 4)
+    {
+        this->ui->textEdit->setText("你好我是乌克兰总统泽连斯基，俄军刚刚发动了对乌克兰的进攻，基辅机场已经被俄军控制。"
+                                    "听说今天是肯德基疯狂星期四，我现在需要有人给我带29.9四个的吮指原味鸡作为军粮。"
+                                    "等我打退俄军我请你来乌克兰做副总统。");
+    }
+    this->i++;
 }

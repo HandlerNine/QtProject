@@ -29,15 +29,7 @@ SOURCES += main.cpp \
     GUI/login.cpp \
     GUI/register.cpp \
     Entity/chatmsg.cpp \
-    Entity/chatprivate.cpp \
-    Entity/friendcenter.cpp \
-    Entity/group.cpp \
-    Entity/groupcenter.cpp \
-    Entity/msg.cpp \
-    Entity/receiver.cpp \
-    Entity/sender.cpp \
     Entity/userinfo.cpp \
-    Entity/chatgroup.cpp \
     GUI/testui.cpp \
     GUI/addfriend.cpp \
     GUI/addgroup.cpp \
@@ -55,16 +47,8 @@ HEADERS  += \
     GUI/login.h \
     GUI/register.h \
     Entity/chatmsg.h \
-    Entity/chatprivate.h \
-    Entity/friendcenter.h \
-    Entity/group.h \
-    Entity/groupcenter.h \
-    Entity/msg.h \
     Entity/msgtype.h \
-    Entity/receiver.h \
-    Entity/sender.h \
     Entity/userinfo.h \
-    Entity/chatgroup.h \
     GUI/testui.h \
     GUI/addfriend.h \
     GUI/addgroup.h \

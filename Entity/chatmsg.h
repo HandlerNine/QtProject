@@ -1,11 +1,19 @@
 #ifndef CHATMSG_H
 #define CHATMSG_H
 
-#include "msg.h"
 #include <QByteArray>
+#include <QDataStream>
 #include <QDateTime>
 #include <QObject>
 
+/* ChatMsg的QByteArray格式:
+ * quint32 _sender
+ * quint32 _receiver
+ * quint32 size_send_time
+ * QString _send_time
+ * quint32 size_content
+ * QString _content
+ */
 class ChatMsg {
 
 public:

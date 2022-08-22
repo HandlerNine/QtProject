@@ -1,35 +1,41 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QListWidgetItem>
-#include <QMouseEvent>
-#include "chatmessage/qnchatmessage.h"
 #include "Network/tcpclient.h"
+#include "chatmessage/qnchatmessage.h"
+#include <Entity/userinfo.h>
+#include <QListWidgetItem>
+#include <QMainWindow>
+#include <QMouseEvent>
+#include <QToolButton>
+#include <QPropertyAnimation>
 
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget* parent = 0);
     ~MainWindow();
+
+    int i = 0;
 
     void show_sendMessage(QString msg);
     void show_recvMessage(QString msg);
 
-    void dealMessage(QNChatMessage *messageW, QListWidgetItem *item, QString text, QString time, QNChatMessage::User_Type type);
+    void dealMessage(QNChatMessage* messageW, QListWidgetItem* item, QString text, QString time, QNChatMessage::User_Type type);
     void dealMessageTime(QString curMsgTime);
+    void sendIDToServer(UserInfo tmp_user);
+
 protected:
-    void resizeEvent(QResizeEvent *event);
+    void resizeEvent(QResizeEvent* event);
 
-    void mousePressEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent* event);
 
-    void mouseMoveEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent* event);
 
 private slots:
     void on_pushButton_clicked();
@@ -46,10 +52,17 @@ private slots:
 
     void recvMsg();
 
+    void sendMsg();
+
+    void on_shakebtn_clicked();
+
+    void on_FixHeadbtn_clicked();
+
 private:
-    Ui::MainWindow *ui;
-    TcpClient *myclient; //记录本地服务器socket
+    Ui::MainWindow* ui;
+    TcpClient* myclient; //记录本地服务器socket
     QPoint m_point;
+    QPropertyAnimation *pShakeAnimation= nullptr;
 };
 
 #endif // MAINWINDOW_H
