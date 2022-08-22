@@ -30,10 +30,20 @@ Register::Register(QWidget *parent) :
     shadow->setBlurRadius(30);
     ui->registerImage->setGraphicsEffect(shadow);
 
+    //服务器相关
+    myclient = new TcpClient(this);
+    connect(myclient, SIGNAL(readyRead()),this, SLOT(recvMsg()));
+
+    if(myclient->connectToServer())
+        qDebug() << "已连接到服务器！" ;
+    else
+        qDebug() << "未连接服务器！" ;
+
 }
 
 Register::~Register()
 {
+    delete myclient;
     delete ui;
 }
 

@@ -1,2 +1,0 @@
-# QtProject
- bit asfas

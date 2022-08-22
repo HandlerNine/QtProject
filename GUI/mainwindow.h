@@ -24,8 +24,8 @@ public:
 
     int i = 0;
 
-    void show_sendMessage(QString msg);
-    void show_recvMessage(QString msg);
+    void show_sendMessage(QString content);
+    void show_recvMessage(QString content);
 
     void dealMessage(QNChatMessage* messageW, QListWidgetItem* item, QString text, QString time, QNChatMessage::User_Type type);
     void dealMessageTime(QString curMsgTime);
@@ -53,7 +53,7 @@ private slots:
 
     void recvMsg();
 
-    void sendMsg();
+    void sendMsg(ChatMsg msg);
 
     void on_shakebtn_clicked();
 
@@ -64,6 +64,8 @@ private:
     TcpClient* myclient; //记录本地服务器socket
     QPoint m_point;
     QPropertyAnimation *pShakeAnimation= nullptr;
+
+    ChatMsg mymsg;   //记录收集到的和使用的chatmsg
 };
 
 #endif // MAINWINDOW_H

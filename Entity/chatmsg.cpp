@@ -30,6 +30,11 @@ ChatMsg::ChatMsg(int type, int sender, int receiver)
     _send_time = (QDateTime::currentDateTime()).toString("yyyy-mm-dd_hh:mm:ss");
 }
 
+void ChatMsg::setAll(int type, int sender, int receiver, QString content){
+    _type = type, _sender = sender, _receiver = receiver, _content = content;
+     _send_time = (QDateTime::currentDateTime()).toString("yyyy-mm-dd_hh:mm:ss");
+}
+
 int ChatMsg::getType() const
 {
     return _type;

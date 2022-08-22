@@ -9,6 +9,8 @@
 #include <QMouseEvent>
 #include <QPoint>
 
+#include "Network/tcpclient.h"
+
 namespace Ui {
 class Login;
 }
@@ -38,6 +40,8 @@ private slots:
 private:
     Ui::Login *ui;
     QPoint m_point;
+
+    TcpClient* myclient; //记录本地服务器socket
 };
 
 #endif // LOGIN_H

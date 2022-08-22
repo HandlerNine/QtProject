@@ -3,6 +3,7 @@
 
 #include "Entity/chatmsg.h"
 #include "Entity/userinfo.h"
+#include "Network/tcpclient.h"
 #include <QGraphicsDropShadowEffect>
 #include <QMouseEvent>
 #include <QWidget>
@@ -37,6 +38,8 @@ private slots:
 private:
     Ui::Register* ui;
     QPoint m_point;
+
+    TcpClient* myclient; //记录本地服务器socket
 };
 
 #endif // REGISTER_H
