@@ -37,17 +37,21 @@ void addfriend::on_pushButton_2_clicked()
 {
     this->close();//返回
 }
-
+qint32 addfriend::GetIdFromName(QString u_name){
+    //这里需要实现通过名字查找ID
+    return 0;
+}
 void addfriend::on_pushButton_clicked()
 {
-    QString friendID = ui->add_num->text();
+    QString friendName = ui->add_num->text();//名字
     //之后搜索好友进行添加，这里需要补充
-    added_friend lm(friendID);
-    frdlst.Add_Fd(lm);
+//    added_friend lm(friendID);
+//    frdlst.Add_Fd(lm);
+    qint32 tt_ID = GetIdFromName(friendName);
     QFile file("./added_friend.txt");
     if(file.open(QIODevice::WriteOnly|QIODevice::Append) == true) {
                      QTextStream twrite1(&file);
-                     twrite1 << friendID <<endl;
+                     twrite1 << friendName << endl << tt_ID << endl;
     }
     addsuccess *m = new addsuccess();
     m->show();
