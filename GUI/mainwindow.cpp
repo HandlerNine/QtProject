@@ -52,8 +52,8 @@ void MainWindow::on_pushButton_clicked()
 //    }
     //实际发消息
     QString content = ui->textEdit->toPlainText();
-    show_sendMessage(content);
     sendMsg(ChatMsg(1,1,2,content));
+    show_sendMessage(mymsg.getContent());
     ui->listWidget->setCurrentRow(ui->listWidget->count()-1);
     ui->textEdit->clear();
 }

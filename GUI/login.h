@@ -8,7 +8,9 @@
 #include <QGraphicsDropShadowEffect>
 #include <QMouseEvent>
 #include <QPoint>
-#include <./Entity/userinfo.h>
+
+#include "Network/tcpclient.h"
+
 namespace Ui {
 class Login;
 }
@@ -20,9 +22,6 @@ class Login : public QMainWindow
 public:
     explicit Login(QWidget *parent = 0);
     ~Login();
-    void LinkToServer();//连接到服务器。
-    bool IsAccountExit(UserInfo m);//判断账号是否存在
-    bool IsPaWdCorrect(UserInfo m);//判断密码是否正确
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -41,6 +40,8 @@ private slots:
 private:
     Ui::Login *ui;
     QPoint m_point;
+
+    TcpClient* myclient; //记录本地服务器socket
 };
 
 #endif // LOGIN_H
