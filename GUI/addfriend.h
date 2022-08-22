@@ -17,6 +17,8 @@ public:
     explicit addfriend(QWidget *parent = 0);
     ~addfriend();
     friendlist frdlst;
+    void LinkToServer();//连接到服务器
+    qint32 GetIdFromName(QString u_name);//从服务器获取ID
 
 private slots:
     void on_pushButton_2_clicked();

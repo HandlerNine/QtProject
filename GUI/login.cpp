@@ -30,38 +30,61 @@ Login::Login(QWidget *parent) :
     shadow->setBlurRadius(30);
     ui->label_image->setGraphicsEffect(shadow);
 
-
 }
 
 Login::~Login()
 {
     delete ui;
 }
-
+void Login::LinkToServer(){
+    //这里写连接到服务器
+}
+bool Login::IsAccountExit(UserInfo m){
+    //这里在服务器里判断账号是否存在
+    return true;
+}
+bool Login::IsPaWdCorrect(UserInfo m){
+    //这里在服务器里判断密码是否正确
+    return true;
+}
 void Login::on_logbtn_clicked()
 {
     QString log_name = this->ui->accountNum->text();
     QString password = this->ui->passwordNum->text();
-    QFile file0("./user.txt");
-    file0.open(QIODevice::ReadOnly);
-    QTextStream tread(&file0);
-    while(!tread.atEnd()){
-        QString tmp = tread.readLine();
-        if(log_name==tmp){
-            QString tmp1 = tread.readLine();
-            if(password!=tmp1){
-                this->ui->Welcome->setText("密码错误！");
-                return;
-            }
-            else{
-                MainWindow *mw = new MainWindow();
-                mw->show();
-                this->close();
-                return;
-            }
-        }
+//    QFile file0("./user.txt");
+//    file0.open(QIODevice::ReadOnly);
+//    QTextStream tread(&file0);
+//    while(!tread.atEnd()){
+//        QString tmp = tread.readLine();
+//        if(log_name==tmp){
+//            QString tmp1 = tread.readLine();
+//            if(password!=tmp1){
+//                this->ui->Welcome->setText("密码错误！");
+//                return;
+//            }
+//            else{
+//                MainWindow *mw = new MainWindow();
+//                mw->show();
+//                this->close();
+//                return;
+//            }
+//        }
+//    }
+//    this->ui->Welcome->setText("账号不存在！");
+    LinkToServer();//连接到服务器
+    qint32 ID =0;//这里先默认一个ID，可以构造UserInfo
+    UserInfo m(ID,log_name,password);
+    if(!IsAccountExit(m)){
+        this->ui->Welcome->setText("账号不存在！");
+        return;
     }
-    this->ui->Welcome->setText("账号不存在！");
+    if(!IsPaWdCorrect(m)){
+        this->ui->Welcome->setText("密码错误！");
+        return;
+    }
+    MainWindow *mw = new MainWindow();
+    mw->show();
+    this->close();
     return;
 }
 
