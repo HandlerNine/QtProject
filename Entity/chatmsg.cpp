@@ -2,6 +2,13 @@
 
 using namespace std;
 
+ChatMsg::ChatMsg()
+    : _type(0)
+    , _sender(0)
+    , _receiver(0)
+    , _send_time("")
+    , _content(""){}
+
 ChatMsg::ChatMsg(
         int type,
         int sender,
@@ -25,7 +32,7 @@ ChatMsg::ChatMsg(int type, int sender, int receiver)
 
 int ChatMsg::getType() const
 {
-    return _sender;
+    return _type;
 }
 
 int ChatMsg::getSender() const

@@ -41,8 +41,11 @@ public:
     QString getChat(){return getContent();}
 
     //type=2 注册时判断  content储存账号+密码(暂时)
-    void setType2(QString acount, QString pwd);
+    void setType2(QString acount);
     bool getType2();
+
+    //type=3 加好友
+
 
 
 private:

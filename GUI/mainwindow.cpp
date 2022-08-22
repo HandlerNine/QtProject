@@ -97,9 +97,11 @@ void MainWindow::sendMsg(){
 
 //接收消息
 void MainWindow::recvMsg(){
-    QByteArray myarray = myclient->readAll();
+    QString myarray = myclient->readAll();
+    ChatMsg msg;
+    msg.toChatMsg(myarray);
     qDebug()<< myarray;
-    show_recvMessage(myarray);
+    show_recvMessage(msg.getContent());
 }
 
 void MainWindow::dealMessage(QNChatMessage *messageW, QListWidgetItem *item, QString text, QString time,  QNChatMessage::User_Type type)
