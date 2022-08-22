@@ -86,12 +86,13 @@ void MainWindow::show_recvMessage(QString msg)
 
 //发送消息
 void MainWindow::sendMsg(){
-    QString msg = ui->textEdit->toPlainText();
+    QString context = ui->textEdit->toPlainText();
     ui->textEdit->setText("");
-    QString time = QString::number(QDateTime::currentDateTime().toTime_t()); //时间戳
 
-    myclient->sendMsg(msg);
-    show_sendMessage(msg);
+    ChatMsg msg = ChatMsg(1,1,2,context);
+
+    myclient->sendMsg(msg.toQString());
+    show_sendMessage(context);
 }
 
 //接收消息

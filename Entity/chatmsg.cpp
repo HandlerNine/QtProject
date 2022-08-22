@@ -1,26 +1,44 @@
 #include "chatmsg.h"
 
-ChatMsg::ChatMsg(quint32 sender,
-    quint32 receiver,
-    const QString& content)
-    : _sender(sender)
+using namespace std;
+
+ChatMsg::ChatMsg(
+        int type,
+        int sender,
+        int receiver,
+        const QString content)
+    : _type(type)
+    , _sender(sender)
     , _receiver(receiver)
     , _content(content)
 {
-    _send_time = (QDateTime::currentDateTime()).toString("yyyy-mm-dd hh:mm:ss");
+    _send_time = (QDateTime::currentDateTime()).toString("yyyy-mm-dd_hh:mm:ss");
 }
 
-quint32 ChatMsg::getSender() const
+ChatMsg::ChatMsg(int type, int sender, int receiver)
+    : _type(type)
+    , _sender(sender)
+    , _receiver(receiver)
+{
+    _send_time = (QDateTime::currentDateTime()).toString("yyyy-mm-dd_hh:mm:ss");
+}
+
+int ChatMsg::getType() const
 {
     return _sender;
 }
 
-quint32 ChatMsg::getReceiver() const
+int ChatMsg::getSender() const
+{
+    return _sender;
+}
+
+int ChatMsg::getReceiver() const
 {
     return _receiver;
 }
 
-QString& ChatMsg::getContent()
+QString ChatMsg::getContent()
 {
     return _content;
 }
@@ -30,73 +48,34 @@ QString ChatMsg::getSendTime()
     return _send_time;
 }
 
-/* ChatMsg的QByteArray格式:
- * quint32 _sender
- * quint32 _receiver
- * quint32 size_send_time
- * QString _send_time
- * quint32 size_content
- * QString _content
- */
-ChatMsg ChatMsg::fromQByteArray(QByteArray chat_msg)
+QString ChatMsg::toQString()
 {
-    QDataStream in(chat_msg);
-    in.setVersion(QDataStream::Qt_5_8);
-
-    quint32 sender;
-    in >> sender;
-    quint32 receiver;
-    in >> receiver;
-
-    // send_time
-    quint32 size_send_time;
-    in >> size_send_time;
-    QByteArray qba; // 截取_send_time内容
-    qba.resize(size_send_time);
-    in >> qba;
-    QString send_time = QString(qba);
-
-    // content
-    quint32 size_content;
-    in >> size_content;
-    QByteArray qba2;
-    qba2.resize(size_content);
-    in >> qba2;
-    QString content = QString(qba2);
-
-    ChatMsg tmp(sender, receiver, content); //创建的时候会自动为_send_time赋值,需要更改赋值
-    tmp._send_time = send_time;
-    return tmp;
+    string str =to_string(this->_type) + " "  + to_string(this->_sender) + " " + to_string(this->_receiver) + " " + this->_send_time.toStdString()
+            + " " + this->_content.toStdString();
+    return QString::fromStdString(str);
 }
-/* ChatMsg的QByteArray格式:
- * quint32 _sender
- * quint32 _receiver
- * quint32 size_send_time
- * QString _send_time
- * quint32 size_content
- * QString _content
- */
-QByteArray ChatMsg::toQByteArray()
+
+void ChatMsg::toChatMsg(QString recv_string)
 {
-    QByteArray qba;
+    string str = recv_string.toStdString();
 
-    QDataStream out(&qba, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_5_8);
-    out << quint32(_sender);
-    out << quint32(_receiver);
+    int pos0 = str.find(" ",0);
+    string type = str.substr(0,pos0);
+    this->_type = std::stoi(type);
 
-    out << quint32(0); //为size_send_time预留空间
-    out << _send_time.toUtf8();
-    out.device()->seek(8); //定位到_receiver后面准备修改size_send_time
-    out << quint32(qba.size() - sizeof(quint32) * 3);
-    int index = qba.size();
-    out.device()->seek(index);
+    int pos1 = str.find(" ", pos0 + 1);
+    string sender = str.substr(pos0+1, pos1 - pos0);
+    this->_sender = std::stoi(sender);
 
-    out << quint32(0); //为size_content留空间
-    out << _content.toUtf8();
-    out.device()->seek(index);
-    out << quint32(qba.size() - index - sizeof(quint32));
-    out.device()->seek(qba.size());
+    int pos2 = str.find(" ", pos1 + 1);
+    string receiver = str.substr(pos1 + 1, pos2 - pos1);
+    //    std::cout << "pos2:" << pos2 << "n" << '\n';
+    this->_receiver = std::stoi(receiver);
 
-    return qba;
+    int pos3 = str.find(" ", pos2 + 1);
+    string send_time = str.substr(pos2 + 1, pos3 - pos2 - 1);
+    this->_send_time = QString::fromStdString(send_time);
+
+    string content = str.substr(pos3 + 1, str.size() - pos3);
+    this->_content = QString::fromStdString(content);
 }

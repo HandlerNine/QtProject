@@ -30,6 +30,7 @@ Login::Login(QWidget *parent) :
     shadow->setBlurRadius(30);
     ui->label_image->setGraphicsEffect(shadow);
 
+
 }
 
 Login::~Login()

@@ -7,10 +7,10 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Login w;
-    w.show();
-    //测试用
-//    TestUI w;
+//    Login w;
 //    w.show();
+    //测试用
+    TestUI w;
+    w.show();
     return a.exec();
 }

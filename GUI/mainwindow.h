@@ -9,6 +9,7 @@
 #include <QMouseEvent>
 #include <QToolButton>
 #include <QPropertyAnimation>
+#include "Entity/chatmsg.h"
 
 namespace Ui {
 class MainWindow;
