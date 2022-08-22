@@ -19,7 +19,7 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget* parent = 0);
+    explicit MainWindow(QWidget* parent = 0, int id = 0, QString name = "", TcpClient* myclient = 0);
     ~MainWindow();
 
     int i = 0;
@@ -30,9 +30,14 @@ public:
     void dealMessage(QNChatMessage* messageW, QListWidgetItem* item, QString text, QString time, QNChatMessage::User_Type type);
     void dealMessageTime(QString curMsgTime);
     void sendIDToServer(UserInfo tmp_user);
-    void LinkToServer();//code by xwb
-    qint32 GetIDFromName(QString fd_name);//通过好友名字查找好友ID
-    void LinkToFriend(qint32 ID);//通过ID连接到好友
+
+    void sendMsg(ChatMsg msg);
+
+    ChatMsg mymsg;   //记录收集到的和使用的chatmsg
+    int Friend_ID = 0;
+    int My_ID = 0;
+    QString My_name;
+    int Chat_type = 1;   //判断聊天类型
 
 protected:
     void resizeEvent(QResizeEvent* event);
@@ -56,8 +61,6 @@ private slots:
 
     void recvMsg();
 
-    void sendMsg(ChatMsg msg);
-
     void on_shakebtn_clicked();
 
     void on_FixHeadbtn_clicked();
@@ -70,8 +73,6 @@ private:
     QPoint m_point;
     QPropertyAnimation *pShakeAnimation= nullptr;
 
-    ChatMsg mymsg;   //记录收集到的和使用的chatmsg
-    int Friend_ID = 0;
 };
 
 #endif // MAINWINDOW_H

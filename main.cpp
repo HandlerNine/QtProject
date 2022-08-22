@@ -4,6 +4,10 @@
 
 #include <./Entity/friendlist.h>
 
+//测试
+#include "GUI/register.h"
+#include "GUI/mainwindow.h"
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

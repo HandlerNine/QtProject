@@ -7,6 +7,7 @@
 #include <QMouseEvent>
 #include <QWidget>
 #include <./Entity/userinfo.h>
+#include "Network/tcpclient.h"
 namespace Ui {
 class Register;
 }
@@ -15,10 +16,10 @@ class Register : public QWidget {
     Q_OBJECT
 
 public:
-    explicit Register(QWidget* parent = 0);
+    Register(QWidget* parent = 0, TcpClient* myclient = 0);
     ~Register();
     int getIDFromServer(UserInfo m);//从服务器获取ID
-    bool IsAccountExist(UserInfo m);//判断账号是否已经存在
+    int IsAccountExist(UserInfo m);//判断账号是否已经存在
     void LinkToServer();//连接到服务器
     void SaveToServer(UserInfo m);
     void sendMsgToServer(ChatMsg msg);
@@ -37,9 +38,14 @@ private slots:
 
     void on_toolButton_clicked();
 
+    void recvMsg();
+
 private:
     Ui::Register* ui;
     QPoint m_point;
+
+    TcpClient* myclient; //记录本地服务器socket
+    ChatMsg mymsg;
 };
 
 #endif // REGISTER_H

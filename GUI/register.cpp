@@ -2,8 +2,8 @@
 #include "ui_register.h"
 #include "login.h"
 
-Register::Register(QWidget *parent) :
-    QWidget(parent),
+Register::Register(QWidget *parent,TcpClient* myclient) :
+    QWidget(parent),myclient(myclient),
     ui(new Ui::Register)
 {
     ui->setupUi(this);
@@ -29,6 +29,8 @@ Register::Register(QWidget *parent) :
     shadow->setColor(QColor("#888888"));
     shadow->setBlurRadius(30);
     ui->registerImage->setGraphicsEffect(shadow);
+    //服务器相关
+    connect(myclient, SIGNAL(readyRead()),this, SLOT(recvMsg()));
 
 }
 
@@ -36,19 +38,37 @@ Register::~Register()
 {
     delete ui;
 }
-void Register::LinkToServer(){
-    //这里写连接到服务器的方法
+
+//需要写一个接收信息的槽
+void Register::recvMsg(){
+    QString myarray = myclient->readAll();
+    mymsg.toChatMsg(myarray);
+
+    int id = mymsg.getReceiver();
+
+    if(mymsg.getType() == 2){
+        //如果成功
+        if(id){
+            this->ui->label->setText("注册成功！");
+        }
+        //否则，就是账号已存在
+        else{
+            this->ui->label->setText("账号已存在");
+        }
+    }
 }
-bool Register::IsAccountExist(UserInfo m){
+
+int Register::IsAccountExist(UserInfo m){
     //这里先将UserInfo转化为ChatMessage
     //再将ChatMessage发送到服务器判断账号是否已经存在
+    QString content = QString("%1 %2").arg(m.getID()).arg(m.getName());
+
 }
+
 int Register::getIDFromServer(UserInfo m){
     return 1;//这里是服务器为符合注册条件的账号分配ID
 }
-void Register::SaveToServer(UserInfo m){
 
-}
 void Register::on_confirmbtn_clicked()
 {
     QString nickname = this->ui->lineEdit->text();//昵称
@@ -57,8 +77,7 @@ void Register::on_confirmbtn_clicked()
 //    QFile file0("./user.txt");
 //    file0.open(QIODevice::ReadOnly);
 //    QTextStream tread(&file0);
-    //这里需要连接服务器
-    LinkToServer();
+
     if(nickname==""){
         this->ui->label->setText("账号不能为空");
         return;//判断账号是否为空，在本地即可实现
@@ -72,12 +91,6 @@ void Register::on_confirmbtn_clicked()
 //            return;
 //        }
 //    }
-    qint32 tmp_ID = 0;//这里因为验证时还没有赋给User_Info m ID，所以先假设其ID为一默认值
-    UserInfo m(tmp_ID,nickname,password1);
-    if(IsAccountExist(m)){
-        this->ui->label->setText("账号已存在");
-        return;//返回
-    }
 
     if(password1.length()<6){
         this->ui->label->setText("密码长度小于六位");
@@ -101,18 +114,15 @@ void Register::on_confirmbtn_clicked()
 //         }
 
 //    }
-    else{//否则存入服务器端的数据库中
-        int tt_ID = getIDFromServer(m);
-        UserInfo SatisUser(tt_ID,nickname,password1);
-        SaveToServer(SatisUser);
-        this->ui->label->setText("注册成功！");
-        return;
-    }
+
+    //可以发消息了
+    QString content = QString("%1 %2").arg(nickname).arg(password1);
+    myclient->sendMsg(ChatMsg(2,0,0,content).toQString());
 }
 
 void Register::on_backbtn_clicked()
 {
-    Login *l = new Login();
+    Login *l = new Login(0,myclient);
     l->show();
     this->close();
 }

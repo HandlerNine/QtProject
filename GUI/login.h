@@ -9,6 +9,8 @@
 #include <QMouseEvent>
 #include <QPoint>
 #include <./Entity/userinfo.h>
+#include "Network/tcpclient.h"
+#include "Entity/chatmsg.h"
 namespace Ui {
 class Login;
 }
@@ -18,7 +20,7 @@ class Login : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit Login(QWidget *parent = 0);
+    explicit Login(QWidget *parent = 0, TcpClient* myclient = 0);
     ~Login();
     void LinkToServer();//连接到服务器。
     bool IsAccountExit(UserInfo m);//判断账号是否存在
@@ -38,9 +40,14 @@ private slots:
 
     void on_minimizedbtn_clicked();
 
+    void recvMsg();
+
 private:
     Ui::Login *ui;
     QPoint m_point;
+
+    TcpClient* myclient; //记录本地服务器socket
+    ChatMsg mymsg;
 };
 
 #endif // LOGIN_H

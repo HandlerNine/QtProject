@@ -25,8 +25,11 @@ private slots:
 
     void on_pushButton_clicked();
 
+
 private:
     Ui::addfriend *ui;
+
+    TcpClient* myclient; //记录本地服务器socket
 };
 
 #endif // ADDFRIEND_H

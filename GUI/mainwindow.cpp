@@ -9,8 +9,8 @@
 
 #include "./Entity/friendlist.h"
 #include "chatmessage/qnchatmessage.h"
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
+MainWindow::MainWindow(QWidget *parent, int id, QString name, TcpClient* myclient) :
+    QMainWindow(parent),My_ID(id),My_name(name),myclient(myclient),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -20,14 +20,13 @@ MainWindow::MainWindow(QWidget *parent) :
                               "QPushButton:hover{background-color:rgb(231, 241, 251); color: black;}"
                               "QPushButton:pressed{background-color:rgb(204, 228, 247);border-style: inset;}"
                              );
+    //UI配置方面
+    ui->label_id->setText(QString::number(My_ID));
+    ui->label_account->setText(My_name);
     //服务器相关
-    myclient = new TcpClient(this);
     connect(myclient, SIGNAL(readyRead()),this, SLOT(recvMsg()));
 
-    if(myclient->connectToServer())
-        qDebug() << "已连接到服务器！" ;
-    else
-        qDebug() << "未连接服务器！" ;
+    qDebug() << "我的id为：" << My_ID;
     //这里显示此id值和account值
     //ui->label_id->setText();
     //ui->label_account->setText();
@@ -53,7 +52,7 @@ void MainWindow::on_pushButton_clicked()
     //实际发消息
     QString content = ui->textEdit->toPlainText();
     show_sendMessage(content);
-    sendMsg(ChatMsg(1,1,2,content));
+    sendMsg(ChatMsg(1,My_ID,Friend_ID,content));
     ui->listWidget->setCurrentRow(ui->listWidget->count()-1);
     ui->textEdit->clear();
 }
@@ -100,6 +99,10 @@ void MainWindow::recvMsg(){
     //如果是要显示的消息
     if(mymsg.getType() == 1)
         show_recvMessage(mymsg.getContent());
+    //如果是关于加好友的消息
+    else if(mymsg.getType() == 4){
+
+    }
     qDebug()<< myarray;
 }
 
@@ -220,6 +223,7 @@ void MainWindow::on_settingButton_clicked()
 
 void MainWindow::on_singleButton_clicked()//显示好友列表
 {
+    Chat_type = 1;
     ui->friendList->clear();
     ui->friendList->setFixedWidth(300);
     QFile file0("./added_friend.txt");
@@ -242,6 +246,7 @@ void MainWindow::on_singleButton_clicked()//显示好友列表
 
 void MainWindow::on_moreButton_clicked()//显示群聊列表
 {
+    Chat_type = 2;
     ui->friendList->clear();
     ui->friendList->setFixedWidth(300);
     QFile file0("./added_group.txt");
@@ -329,16 +334,7 @@ void MainWindow::on_FixHeadbtn_clicked()
     this->i++;
 }
 
-void MainWindow::LinkToServer(){
-    //这里实现连接到服务器
-}
-qint32 MainWindow::GetIDFromName(QString fd_name){
-    //这里实现通过好友名字得到好友ID
-    return 1;
-}
-void MainWindow::LinkToFriend(qint32 ID){
-    //这里实现通过好友ID与好友建立联系
-}
+
 void MainWindow::on_friendList_itemClicked(QListWidgetItem *item)
 {
     this->ui->textEdit->setText("clicked");
