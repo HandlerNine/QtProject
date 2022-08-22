@@ -41,8 +41,8 @@ void addgroup::on_pushButton_6_clicked()
 {
     QString GroupID = ui->add_num->text();
     //之后搜索群号进行添加，这里需要补充
-    added_group lm(GroupID);
-    grplst.Add_Group(lm);
+//    added_group lm(GroupID);
+//    grplst.Add_Group(lm);
     QFile file("./added_group.txt");
     if(file.open(QIODevice::WriteOnly|QIODevice::Append) == true) {
                      QTextStream twrite1(&file);

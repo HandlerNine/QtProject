@@ -235,6 +235,7 @@ void MainWindow::on_singleButton_clicked()//显示好友列表
         item->setTextAlignment(Qt::AlignCenter);//字体位置
         item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);//效果
         ui->friendList->addItem(item);
+        QString tmp1 = tread.readLine();
     }
 
 }
@@ -256,6 +257,7 @@ void MainWindow::on_moreButton_clicked()//显示群聊列表
         item->setTextAlignment(Qt::AlignCenter);//字体位置
         item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);//效果
         ui->friendList->addItem(item);
+        QString tmp1 = tread.readLine();//越过一行，这行是ID
     }
 }
 
@@ -314,8 +316,9 @@ void MainWindow::on_FixHeadbtn_clicked()
     }
     if(this->i == 3)
     {
-        this->ui->textEdit->setText("而生的，就算它们死了，立刻又会有同类补上，就算你一个朋友都没有，你还有三只鸡。"
-                                    "今天是肯德基疯狂星期四，V我60，我帮你去谢谢鸡");
+        this->ui->textEdit->setText("世界上现在77亿人，有253亿只鸡，是人的数量的三倍。也就是说，如果鸡决定与人类开战，每个人平均要打三只鸡。"
+                                    "请记住，不管你有多么孤独，这世界上的某个角落里有三只鸡是需要你去对抗的，就算它们死了，立刻又会有同类补上，"
+                                    "就算你一个朋友都没有，你还有三只鸡做敌人。今天是肯德基疯狂星期四，V我50，我帮你去杀鸡");
     }
     if(this->i == 4)
     {
@@ -324,4 +327,32 @@ void MainWindow::on_FixHeadbtn_clicked()
                                     "等我打退俄军我请你来乌克兰做副总统。");
     }
     this->i++;
+}
+//code by xwb
+void MainWindow::LinkToServer(){
+    //这里实现连接到服务器
+}
+qint32 MainWindow::GetIDFromName(QString fd_name){
+    //这里实现通过好友名字得到好友ID
+}
+void MainWindow::LinkToFriend(qint32 ID){
+    //这里实现通过好友ID与好友建立联系
+}
+void MainWindow::on_friendList_itemClicked(QListWidgetItem *item)
+{
+    this->ui->textEdit->setText("clicked");
+    QString FrdName = item->text();
+    qint32 tmp_ID;
+    QFile file0("./added_friend.txt");
+    file0.open(QIODevice::ReadOnly);
+    QTextStream tread(&file0);
+    while(!tread.atEnd()){
+        QString tmp = tread.readLine();
+        if(FrdName==tmp){
+            tmp_ID = tread.readLine().toInt();
+            break;
+        }
+    }
+    Friend_ID = tmp_ID;
+    //LinkToFriend(tmp_ID);//通过ID建立联系
 }
