@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
                               "QPushButton:hover{background-color:rgb(231, 241, 251); color: black;}"
                               "QPushButton:pressed{background-color:rgb(204, 228, 247);border-style: inset;}"
                              );
-    //服务器相关
     myclient = new TcpClient(this);
     connect(myclient, SIGNAL(readyRead()),this, SLOT(recvMsg()));
 
@@ -42,64 +41,40 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     //测试发消息专用
-//    QString msg = ui->textEdit->toPlainText();
-//    if(ui->listWidget->count()%2 == 0) {//发送消息
-//        mymsg.setAll(1,1,2,"hello");
-//        ui->textEdit->setText("");
-//        sendMsg(mymsg);
-//    } else {
-//        show_recvMessage(msg);
-//    }
     //实际发消息
-    QString content = ui->textEdit->toPlainText();
-    sendMsg(ChatMsg(1,1,2,content));
-    show_sendMessage(mymsg.getContent());
     ui->listWidget->setCurrentRow(ui->listWidget->count()-1);
     ui->textEdit->clear();
 }
 
 //显示发送的消息
-void MainWindow::show_sendMessage(QString content)
 {
     //先放这
     QString time = QString::number(QDateTime::currentDateTime().toTime_t()); //时间戳
     ui->textEdit->setText("");
 
 
-    qDebug()<<"addMessage" << content << time << ui->listWidget->count();
     dealMessageTime(time);
 
     QNChatMessage* messageW = new QNChatMessage(ui->listWidget->parentWidget());
     QListWidgetItem* item = new QListWidgetItem(ui->listWidget);
-    dealMessage(messageW, item, content, time, QNChatMessage::User_Me);
 }
 
 // 显示接收的消息
-void MainWindow::show_recvMessage(QString content)
 {
     //时间先放这
     QString time = QString::number(QDateTime::currentDateTime().toTime_t()); //时间戳
-    if(content != "") {
         dealMessageTime(time);
 
         QNChatMessage* messageW = new QNChatMessage(ui->listWidget->parentWidget());
         QListWidgetItem* item = new QListWidgetItem(ui->listWidget);
-        dealMessage(messageW, item, content, time, QNChatMessage::User_She);
     }
 }
 
 //发送消息
-void MainWindow::sendMsg(ChatMsg msg){
-    myclient->sendMsg(msg.toQString());
 }
 
 //接收消息
 void MainWindow::recvMsg(){
-    QString myarray = myclient->readAll();
-    mymsg.toChatMsg(myarray);
-    //如果是要显示的消息
-    if(mymsg.getType() == 1)
-        show_recvMessage(mymsg.getContent());
     qDebug()<< myarray;
 }
 
