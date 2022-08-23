@@ -22,6 +22,9 @@ private slots:
 
     void on_pushButton_3_clicked();
 
+signals:
+    void sendChooseAddSignal(int tag);
+
 private:
     Ui::chooseadd *ui;
 };

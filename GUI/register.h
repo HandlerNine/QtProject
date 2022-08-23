@@ -42,7 +42,7 @@ private:
     Ui::Register* ui;
     QPoint m_point;
 
-    TcpClient* myclient; //记录本地服务器socket
+    TcpClient* myclient=0; //记录本地服务器socket
     ChatMsg mymsg;
 };
 

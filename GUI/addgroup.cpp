@@ -4,7 +4,6 @@
 #include "./Entity/added_group.h"
 #include "addfriend.h"
 #include "ui_addfriend.h"
-#include "./GUI/mainwindow.h"
 #include"./GUI/addsuccess.h"
 #include "mainwindow.h"
 #include "./Entity/friendlist.h"
@@ -40,6 +39,7 @@ addgroup::~addgroup()
 void addgroup::on_pushButton_6_clicked()
 {
     QString GroupID = ui->add_num->text();
+    emit sendGroup(GroupID);
     //之后搜索群号进行添加，这里需要补充
 //    added_group lm(GroupID);
 //    grplst.Add_Group(lm);

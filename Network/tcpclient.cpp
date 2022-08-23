@@ -27,6 +27,6 @@ void TcpClient::sendMsg(QString msg){
     waitForBytesWritten();
     QByteArray send_msg = msg.toUtf8();
     write(send_msg);
-    qDebug()<<"发送数据:"+msg;
+    qDebug()<< "发送数据:"+msg;
 }
 

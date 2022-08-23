@@ -1,7 +1,6 @@
 #ifndef ADDFRIEND_H
 #define ADDFRIEND_H
 
-#include <./GUI/mainwindow.h>
 #include <QWidget>
 
 #include <./Entity/friendlist.h>
@@ -17,8 +16,6 @@ public:
     explicit addfriend(QWidget *parent = 0);
     ~addfriend();
     friendlist frdlst;
-    void LinkToServer();//连接到服务器
-    qint32 GetIdFromName(QString u_name);//从服务器获取ID
 
 private slots:
     void on_pushButton_2_clicked();
@@ -26,8 +23,12 @@ private slots:
     void on_pushButton_clicked();
 
 
+signals:
+    void sendFriendSig(QString name);
+
 private:
     Ui::addfriend *ui;
+
 };
 
 #endif // ADDFRIEND_H

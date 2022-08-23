@@ -42,7 +42,8 @@ Register::~Register()
 
 void Register::LinkToServer(){
     //这里写连接到服务器
-    myclient = new TcpClient(this);
+    if(!myclient)
+        myclient = new TcpClient(this);
     connect(myclient, SIGNAL(readyRead()),this, SLOT(recvMsg()));
     if(myclient->connectToServer())
         qDebug() << "已连接到服务器！" ;
@@ -134,7 +135,7 @@ void Register::on_confirmbtn_clicked()
 
 void Register::on_backbtn_clicked()
 {
-    Login *l = new Login(0,myclient);
+    Login *l = new Login;
     l->show();
     this->close();
 }

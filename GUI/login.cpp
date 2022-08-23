@@ -3,8 +3,8 @@
 #include "register.h"
 #include "mainwindow.h"
 
-Login::Login(QWidget *parent, TcpClient* myclient) :
-    QMainWindow(parent),myclient(myclient),
+Login::Login(QWidget *parent) :
+    QMainWindow(parent),
     ui(new Ui::Login)
 {
     ui->setupUi(this);
@@ -41,7 +41,8 @@ Login::~Login()
 }
 void Login::LinkToServer(){
     //这里写连接到服务器
-    myclient = new TcpClient(this);
+    if(!myclient)
+        myclient = new TcpClient(this);
     connect(myclient, SIGNAL(readyRead()),this, SLOT(recvMsg()));
     if(myclient->connectToServer())
         qDebug() << "已连接到服务器！" ;

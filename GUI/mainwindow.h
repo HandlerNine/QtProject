@@ -10,6 +10,9 @@
 #include <QToolButton>
 #include <QPropertyAnimation>
 #include "Entity/chatmsg.h"
+#include "GUI/chooseadd.h"
+#include "GUI/addfriend.h"
+#include "GUI/addgroup.h"
 
 namespace Ui {
 class MainWindow;
@@ -35,6 +38,8 @@ public:
     void SaveChatToLocal(int Fd_ID ,ChatMsg msg);//存储聊天记录到本地,初步想法是不同好友编一个txt文件，文件命名为好友的ID
     void ShowChatToWindow(int Fd_ID);//在点击好友时，打开本地的记录好友聊天的文件，将其转化为ChatMsg，之后再输出
     void LinkToServer();
+
+    void shakeWindow();
 
     void sendMsg(ChatMsg msg);
 
@@ -74,12 +79,24 @@ private slots:
     void on_FixHeadbtn_clicked();
 
     void on_friendList_itemClicked(QListWidgetItem *item);
+    void on_friendList_itemDoubleClicked(QListWidgetItem *item);
+
+public slots:
+    void recvFromChooseAdd(int tag);//0个人，1群聊
+
+    void getFriendName(QString name);
+
+    void sendServerGroup(QString name);
 
 private:
     Ui::MainWindow* ui;
-    TcpClient* myclient; //记录本地服务器socket
+    TcpClient* myclient = 0; //记录本地服务器socket
     QPoint m_point;
     QPropertyAnimation *pShakeAnimation= nullptr;
+
+    chooseadd* chooseUI;//方便记录
+    addfriend* afriendUI;
+    addgroup* agroupUI;
 
 };
 

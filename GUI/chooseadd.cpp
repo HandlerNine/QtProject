@@ -36,15 +36,13 @@ chooseadd::~chooseadd()
 
 void chooseadd::on_pushButton_clicked()
 {
-    addfriend * m =new addfriend();
-    m->show();
+    emit sendChooseAddSignal(0);
     this->close();
 }
 
 void chooseadd::on_pushButton_2_clicked()
 {
-    addgroup*m=new addgroup();
-    m->show();
+    emit sendChooseAddSignal(1);
     this->close();
 }
 

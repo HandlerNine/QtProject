@@ -21,6 +21,7 @@ public:
 
     //设置成员变量
     void setAll(int type, int sender, int receiver, QString content);
+    void setType(int type);
 
     // 获取相应的成员变量
     int getType() const;

@@ -23,6 +23,9 @@ private slots:
 
     void on_pushButton_5_clicked();
 
+signals:
+    void sendGroup(QString name);
+
 private:
     Ui::addgroup *ui;
 };
