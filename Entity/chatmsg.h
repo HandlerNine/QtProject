@@ -34,20 +34,6 @@ public:
     QString toQString();
     void toChatMsg(QString str);
 
-    //下面是根据type来判断发送的content和接收的content怎么处理
-    //type=0 注册  content储存账号+密码(暂时)
-    void setType0(QString acount, QString pwd);
-
-    //type=1 聊天  content储存聊天信息，直接获取即可
-    void setType1(QString content);
-    QString getChat(){return getContent();}
-
-    //type=2 注册时判断  content储存账号+密码(暂时)
-    void setType2(QString acount);
-    bool getType2();
-
-    //type=3 加好友
-
 
 
 private:

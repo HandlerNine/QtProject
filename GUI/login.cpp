@@ -41,15 +41,12 @@ Login::~Login()
 }
 void Login::LinkToServer(){
     //这里写连接到服务器
-    if(myclient == 0){
-        myclient = new TcpClient(this);
-        if(myclient->connectToServer())
-            qDebug() << "已连接到服务器！" ;
-        else
-            qDebug() << "未连接服务器！" ;
-    }
+    myclient = new TcpClient(this);
     connect(myclient, SIGNAL(readyRead()),this, SLOT(recvMsg()));
-
+    if(myclient->connectToServer())
+        qDebug() << "已连接到服务器！" ;
+    else
+        qDebug() << "未连接服务器！" ;
 }
 
 void Login::recvMsg(){
@@ -65,7 +62,7 @@ void Login::recvMsg(){
     if(mymsg.getType() == 3){
         //如果成功
         if(id){
-            MainWindow *mw = new MainWindow(0,id,content,myclient);
+            MainWindow *mw = new MainWindow(0,id,content);
             mw->show();
             this->close();
             return;
@@ -87,26 +84,14 @@ void Login::on_logbtn_clicked()
 {
     QString log_name = this->ui->accountNum->text();
     QString password = this->ui->passwordNum->text();
-//    QFile file0("./user.txt");
-//    file0.open(QIODevice::ReadOnly);
-//    QTextStream tread(&file0);
-//    while(!tread.atEnd()){
-//        QString tmp = tread.readLine();
-//        if(log_name==tmp){
-//            QString tmp1 = tread.readLine();
-//            if(password!=tmp1){
-//                this->ui->Welcome->setText("密码错误！");
-//                return;
-//            }
-//            else{
-//                MainWindow *mw = new MainWindow();
-//                mw->show();
-//                this->close();
-//                return;
-//            }
-//        }
-//    }
-//    this->ui->Welcome->setText("账号不存在！");
+    if(log_name.contains(" ")){
+        this->ui->Welcome->setText("账号不能有空格");
+        return;
+    }
+    if(password.contains(" ")){
+        this->ui->Welcome->setText("密码不能有空格");
+        return;
+    }
 
     QString content = QString("%1 %2").arg(log_name).arg(password);
     myclient->sendMsg(ChatMsg(3,0,0,content).toQString());
@@ -115,7 +100,7 @@ void Login::on_logbtn_clicked()
 
 void Login::on_registerbtn_clicked()
 {
-    Register *r = new Register(0,myclient);
+    Register *r = new Register();
     r->show();
     this->close();
 }

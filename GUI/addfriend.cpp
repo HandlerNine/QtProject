@@ -47,6 +47,8 @@ void addfriend::on_pushButton_clicked()
     //之后搜索好友进行添加，这里需要补充
 //    added_friend lm(friendID);
 //    frdlst.Add_Fd(lm);
+    //需要发送消息
+    ChatMsg msg = ChatMsg(4,0,0,friendName);
     qint32 tt_ID = GetIdFromName(friendName);
     QFile file("./added_friend.txt");
     if(file.open(QIODevice::WriteOnly|QIODevice::Append) == true) {

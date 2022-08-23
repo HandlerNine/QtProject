@@ -19,7 +19,7 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget* parent = 0, int id = 0, QString name = "", TcpClient* myclient = 0);
+    explicit MainWindow(QWidget* parent = 0, int id = 0, QString name = "");
     ~MainWindow();
 
     int i = 0;
@@ -31,7 +31,15 @@ public:
     void dealMessageTime(QString curMsgTime);
     void sendIDToServer(UserInfo tmp_user);
 
+    void LinkToFriend(qint32 ID);//通过ID连接到好友
+    void SaveChatToLocal(int Fd_ID ,ChatMsg msg);//存储聊天记录到本地,初步想法是不同好友编一个txt文件，文件命名为好友的ID
+    void ShowChatToWindow(int Fd_ID);//在点击好友时，打开本地的记录好友聊天的文件，将其转化为ChatMsg，之后再输出
+    void LinkToServer();
+
     void sendMsg(ChatMsg msg);
+
+    //    void SaveGroupChat(int Gp_ID, ChatMsg msg);//存储群聊天记录到本地
+    //    void ShowGroupChat(int Gp_ID);//点击群聊显示群聊的聊天记录，将其转化为ChatMsg，之后再输出
 
     ChatMsg mymsg;   //记录收集到的和使用的chatmsg
     int Friend_ID = 0;
@@ -65,7 +73,7 @@ private slots:
 
     void on_FixHeadbtn_clicked();
 
-        void on_friendList_itemClicked(QListWidgetItem *item);
+    void on_friendList_itemClicked(QListWidgetItem *item);
 
 private:
     Ui::MainWindow* ui;

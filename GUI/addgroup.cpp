@@ -43,7 +43,7 @@ void addgroup::on_pushButton_6_clicked()
     //之后搜索群号进行添加，这里需要补充
 //    added_group lm(GroupID);
 //    grplst.Add_Group(lm);
-    QFile file("./added_group.txt");
+    QFile file("./added_group.txt");//将群聊ID列表存在本地
     if(file.open(QIODevice::WriteOnly|QIODevice::Append) == true) {
                      QTextStream twrite1(&file);
                      twrite1 << GroupID <<endl;

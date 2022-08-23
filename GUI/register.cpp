@@ -2,8 +2,8 @@
 #include "ui_register.h"
 #include "login.h"
 
-Register::Register(QWidget *parent,TcpClient* myclient) :
-    QWidget(parent),myclient(myclient),
+Register::Register(QWidget *parent) :
+    QWidget(parent),
     ui(new Ui::Register)
 {
     ui->setupUi(this);
@@ -30,13 +30,24 @@ Register::Register(QWidget *parent,TcpClient* myclient) :
     shadow->setBlurRadius(30);
     ui->registerImage->setGraphicsEffect(shadow);
     //服务器相关
-    connect(myclient, SIGNAL(readyRead()),this, SLOT(recvMsg()));
+    LinkToServer();
 
 }
 
 Register::~Register()
 {
+    delete myclient;
     delete ui;
+}
+
+void Register::LinkToServer(){
+    //这里写连接到服务器
+    myclient = new TcpClient(this);
+    connect(myclient, SIGNAL(readyRead()),this, SLOT(recvMsg()));
+    if(myclient->connectToServer())
+        qDebug() << "已连接到服务器！" ;
+    else
+        qDebug() << "未连接服务器！" ;
 }
 
 //需要写一个接收信息的槽
@@ -45,6 +56,9 @@ void Register::recvMsg(){
     mymsg.toChatMsg(myarray);
 
     int id = mymsg.getReceiver();
+
+    qDebug()<<"注册时获取到 type：" << mymsg.getType() << "  send:" << mymsg.getSender() << "  recv:" << mymsg.getReceiver()
+           <<"  time" << mymsg.getSendTime() << "  content:" <<mymsg.getContent();
 
     if(mymsg.getType() == 2){
         //如果成功
@@ -56,17 +70,6 @@ void Register::recvMsg(){
             this->ui->label->setText("账号已存在");
         }
     }
-}
-
-int Register::IsAccountExist(UserInfo m){
-    //这里先将UserInfo转化为ChatMessage
-    //再将ChatMessage发送到服务器判断账号是否已经存在
-    QString content = QString("%1 %2").arg(m.getID()).arg(m.getName());
-
-}
-
-int Register::getIDFromServer(UserInfo m){
-    return 1;//这里是服务器为符合注册条件的账号分配ID
 }
 
 void Register::on_confirmbtn_clicked()
@@ -81,6 +84,15 @@ void Register::on_confirmbtn_clicked()
     if(nickname==""){
         this->ui->label->setText("账号不能为空");
         return;//判断账号是否为空，在本地即可实现
+    }
+
+    if(nickname.contains(" ")){
+        this->ui->label->setText("账号不能有空格");
+        return;
+    }
+    if(password1.contains(" ")){
+        this->ui->label->setText("密码不能有空格");
+        return;
     }
 
 //    while(!tread.atEnd()){
