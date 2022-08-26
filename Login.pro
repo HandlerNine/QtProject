@@ -39,7 +39,8 @@ SOURCES += main.cpp \
     Entity/added_friend.cpp \
     Entity/added_group.cpp \
     Entity/friendlist.cpp \
-    Entity/grouplist.cpp
+    Entity/grouplist.cpp \
+    GUI/addfail.cpp
 
 HEADERS  += \
     chatmessage/qnchatmessage.h \
@@ -58,7 +59,8 @@ HEADERS  += \
     Entity/added_friend.h \
     Entity/added_group.h \
     Entity/friendlist.h \
-    Entity/grouplist.h
+    Entity/grouplist.h \
+    GUI/addfail.h
 
 FORMS    += \
     GUI/mainwindow.ui \
@@ -68,7 +70,8 @@ FORMS    += \
     GUI/addfriend.ui \
     GUI/addgroup.ui \
     GUI/addsuccess.ui \
-    GUI/chooseadd.ui
+    GUI/chooseadd.ui \
+    GUI/addfail.ui
 
 RESOURCES += \
     images.qrc

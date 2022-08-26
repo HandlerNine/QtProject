@@ -1,11 +1,4 @@
 #include "qnchatmessage.h"
-#include <QFontMetrics>
-#include <QPaintEvent>
-#include <QDateTime>
-#include <QPainter>
-#include <QMovie>
-#include <QLabel>
-#include <QDebug>
 
 QNChatMessage::QNChatMessage(QWidget *parent) : QWidget(parent)
 {
@@ -110,7 +103,6 @@ QSize QNChatMessage::getRealString(QString src)
             nMaxWidth = m_textWidth;
             int size = m_textWidth / fm.width(" ");
             int num = fm.width(value) / m_textWidth;
-            int ttmp = num*fm.width(" ");
             num = ( fm.width(value) ) / m_textWidth;
             nCount += num;
             QString temp = "";

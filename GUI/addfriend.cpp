@@ -1,11 +1,5 @@
 #include "addfriend.h"
 #include "ui_addfriend.h"
-#include "./GUI/mainwindow.h"
-#include"./GUI/addsuccess.h"
-#include "mainwindow.h"
-#include "./Entity/friendlist.h"
-#include "./Entity/added_friend.h"
-#include <./GUI/login.h>
 
 addfriend::addfriend(QWidget *parent) :
     QWidget(parent),
@@ -43,10 +37,5 @@ void addfriend::on_pushButton_clicked()
 {
     QString friendName = ui->add_num->text();//名字
     emit sendFriendSig(friendName);
-    //之后搜索好友进行添加，这里需要补充
-//    added_friend lm(friendID);
-//    frdlst.Add_Fd(lm);
-    //需要发送消息
-    addsuccess *m = new addsuccess();
-    m->show();
+    this->close();
 }

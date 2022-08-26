@@ -3,7 +3,10 @@
 
 #include <QWidget>
 
-#include <./Entity/friendlist.h>
+#include "GUI/addsuccess.h"
+#include "Entity/friendlist.h"
+#include "Entity/added_friend.h"
+
 namespace Ui {
 class addfriend;
 }
@@ -24,7 +27,7 @@ private slots:
 
 
 signals:
-    void sendFriendSig(QString name);
+    void sendFriendSig(QString friendName);
 
 private:
     Ui::addfriend *ui;

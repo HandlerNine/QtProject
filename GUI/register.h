@@ -1,13 +1,15 @@
 #ifndef REGISTER_H
 #define REGISTER_H
 
-#include "Entity/chatmsg.h"
-#include "Entity/userinfo.h"
 #include <QGraphicsDropShadowEffect>
 #include <QMouseEvent>
 #include <QWidget>
-#include <./Entity/userinfo.h>
+
+#include "login.h"
+#include "Entity/chatmsg.h"
+#include "Entity/userinfo.h"
 #include "Network/tcpclient.h"
+
 namespace Ui {
 class Register;
 }

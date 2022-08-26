@@ -86,8 +86,7 @@ QByteArray UserInfo::toQByteArray()
     out << user_password.toUtf8();
     out.device()->seek(index);
     out << (quint32)(qba.size() - index - sizeof(quint32)); //计算得到user_size
-    out.device()->seek(qba.size()); //定位到行末\
-
+    out.device()->seek(qba.size()); //定位到行末
     return qba;
 }
 

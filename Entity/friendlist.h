@@ -3,7 +3,8 @@
 
 #include <QObject>
 #include <QList>
-#include <./Entity/added_friend.h>
+#include "Entity/added_friend.h"
+
 class friendlist
 {
 public:

@@ -3,14 +3,14 @@
 using namespace std;
 
 ChatMsg::ChatMsg()
-    : _type(0)
+    : _type(Fake)
     , _sender(0)
     , _receiver(0)
     , _send_time("")
     , _content(""){}
 
 ChatMsg::ChatMsg(
-        int type,
+        Chat_Type type,
         int sender,
         int receiver,
         const QString content)
@@ -19,25 +19,26 @@ ChatMsg::ChatMsg(
     , _receiver(receiver)
     , _content(content)
 {
-    _send_time = (QDateTime::currentDateTime()).toString("yyyy-mm-dd_hh:mm:ss");
+    _send_time = QString::number(QDateTime::currentDateTime().toTime_t()); //时间戳
 }
 
-ChatMsg::ChatMsg(int type, int sender, int receiver)
+ChatMsg::ChatMsg(Chat_Type type, int sender, int receiver)
     : _type(type)
     , _sender(sender)
     , _receiver(receiver)
 {
-    _send_time = (QDateTime::currentDateTime()).toString("yyyy-mm-dd_hh:mm:ss");
+    _send_time = QString::number(QDateTime::currentDateTime().toTime_t());
 }
 
-void ChatMsg::setAll(int type, int sender, int receiver, QString content){
+
+void ChatMsg::setAll(Chat_Type type, int sender, int receiver, QString content){
     _type = type, _sender = sender, _receiver = receiver, _content = content;
-     _send_time = (QDateTime::currentDateTime()).toString("yyyy-mm-dd_hh:mm:ss");
+     _send_time = QString::number(QDateTime::currentDateTime().toTime_t());
 }
 
-void ChatMsg::setType(int type){_type = type;}
+void ChatMsg::setType(Chat_Type type){_type = type;}
 
-int ChatMsg::getType() const
+Chat_Type ChatMsg::getType() const
 {
     return _type;
 }
@@ -75,7 +76,7 @@ void ChatMsg::toChatMsg(QString recv_string)
 
     int pos0 = str.find(" ",0);
     string type = str.substr(0,pos0);
-    this->_type = std::stoi(type);
+    this->_type = (Chat_Type)std::stoi(type);
 
     int pos1 = str.find(" ", pos0 + 1);
     string sender = str.substr(pos0+1, pos1 - pos0);

@@ -1,8 +1,4 @@
 #include "tcpclient.h"
-#include "qhostaddress.h"
-#include <QDataStream>
-#include <QString>
-
 
 TcpClient::TcpClient(QObject *parent):QTcpSocket(parent)
 {

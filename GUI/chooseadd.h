@@ -3,6 +3,9 @@
 
 #include <QWidget>
 
+#include "addfriend.h"
+#include "addgroup.h"
+
 namespace Ui {
 class chooseadd;
 }

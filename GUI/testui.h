@@ -2,6 +2,10 @@
 #define TESTUI_H
 
 #include <QWidget>
+#include <QDebug>
+#include <QString>
+
+#include "Entity/chatmsg.h"
 
 //这个UI是用来测试各个类能否正常工作用的，啥都没有
 namespace Ui {

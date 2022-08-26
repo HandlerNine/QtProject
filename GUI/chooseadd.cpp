@@ -1,11 +1,6 @@
 #include "chooseadd.h"
 #include "ui_chooseadd.h"
-#include"addfriend.h"
-#include "addgroup.h"
-#include "login.h"
-#include "ui_login.h"
-#include "register.h"
-#include "mainwindow.h"
+
 chooseadd::chooseadd(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::chooseadd)

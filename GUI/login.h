@@ -8,9 +8,13 @@
 #include <QGraphicsDropShadowEffect>
 #include <QMouseEvent>
 #include <QPoint>
-#include <./Entity/userinfo.h>
-#include "Network/tcpclient.h"
+
+#include "register.h"
+#include "mainwindow.h"
 #include "Entity/chatmsg.h"
+#include "Entity/userinfo.h"
+#include "Network/tcpclient.h"
+
 namespace Ui {
 class Login;
 }

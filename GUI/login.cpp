@@ -1,7 +1,5 @@
 #include "login.h"
 #include "ui_login.h"
-#include "register.h"
-#include "mainwindow.h"
 
 Login::Login(QWidget *parent) :
     QMainWindow(parent),
@@ -95,7 +93,7 @@ void Login::on_logbtn_clicked()
     }
 
     QString content = QString("%1 %2").arg(log_name).arg(password);
-    myclient->sendMsg(ChatMsg(3,0,0,content).toQString());
+    myclient->sendMsg(ChatMsg(Chat_Load,0,0,content).toQString());
 
 }
 

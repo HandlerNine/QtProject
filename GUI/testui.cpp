@@ -1,8 +1,5 @@
 #include "testui.h"
 #include "ui_testui.h"
-#include <QDebug>
-#include <QString>
-#include "Entity/chatmsg.h"
 
 #include<string>
 
@@ -14,7 +11,7 @@ TestUI::TestUI(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ChatMsg msg = ChatMsg(1,1,2,QString::fromStdString("hello"));
+    ChatMsg msg = ChatMsg(Chat_SingleChat,1,2,QString::fromStdString("hello"));
 
 
     QString mid_msg = msg.toQString();

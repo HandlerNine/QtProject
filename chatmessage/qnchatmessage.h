@@ -2,6 +2,13 @@
 #define QNCHATMESSAGE_H
 
 #include <QWidget>
+#include <QFontMetrics>
+#include <QPaintEvent>
+#include <QDateTime>
+#include <QPainter>
+#include <QMovie>
+#include <QLabel>
+#include <QDebug>
 
 class QPaintEvent;
 class QPainter;

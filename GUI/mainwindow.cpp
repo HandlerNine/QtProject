@@ -1,14 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QSize>
-#include <QDateTime>
-#include <QDebug>
-#include "GUI/addfriend.h"
-#include "GUI/chooseadd.h"
-#include "Entity/userinfo.h"
 
-#include "./Entity/friendlist.h"
-#include "chatmessage/qnchatmessage.h"
 MainWindow::MainWindow(QWidget *parent, int id, QString name) :
     QMainWindow(parent), My_ID(id), My_name(name),
     ui(new Ui::MainWindow)
@@ -27,9 +19,6 @@ MainWindow::MainWindow(QWidget *parent, int id, QString name) :
     LinkToServer();
 
     qDebug() << "我的id为：" << My_ID;
-    //这里显示此id值和account值
-    //ui->label_id->setText();
-    //ui->label_account->setText();
 }
 
 MainWindow::~MainWindow()
@@ -42,10 +31,11 @@ void MainWindow::LinkToServer(){
     //这里写连接到服务器
     if(!myclient)
         myclient = new TcpClient(this);
+    //收到消息时立刻处理
     connect(myclient, SIGNAL(readyRead()),this, SLOT(recvMsg()));
     if(myclient->connectToServer()){
         qDebug() << "已连接到服务器！" ;
-        myclient->sendMsg(ChatMsg(6,My_ID,0,"1").toQString());
+        myclient->sendMsg(ChatMsg(Chat_WebCheck,My_ID,0,"1").toQString());
     }
     else
         qDebug() << "未连接服务器！" ;
@@ -73,17 +63,6 @@ void MainWindow::SaveChatToLocal(int Fd_ID ,ChatMsg msg){//保存好友聊天记
 }
 
 void MainWindow::ShowChatToWindow(int Fd_ID){
-    //    QFile file0("./user.txt");
-    //    file0.open(QIODevice::ReadOnly);
-    //    QTextStream tread(&file0);
-    //    while(!tread.atEnd()){
-    //        QString tmp = tread.readLine();
-    //        if(log_name==tmp){
-    //            QString tmp1 = tread.readLine();
-    //            if(password!=tmp1){
-    //                this->ui->Welcome->setText("密码错误！");
-    //                return;
-    //            }
     QString pre = "./";//前缀
     QString sufix = ".txt";//后缀
     QString record;
@@ -102,67 +81,42 @@ void MainWindow::ShowChatToWindow(int Fd_ID){
         QString tmp = tread.readLine();
         ChatMsg showMsg;
         showMsg.toChatMsg(tmp);
-        if(showMsg.getSender() == My_ID){
+        if(showMsg.getSender() == My_ID && showMsg.getReceiver() == Friend_ID){
             qDebug()<<My_ID;
-            show_sendMessage(showMsg.getContent());
+            show_message(showMsg,QNChatMessage::User_Me);
         }
-        else{
-            show_recvMessage(showMsg.getContent());
+        if(showMsg.getSender() == Friend_ID && showMsg.getReceiver() == My_ID){
+            show_message(showMsg,QNChatMessage::User_She);
         }
     }
 }
 
 void MainWindow::on_pushButton_clicked()
 {
-    //测试发消息专用
-//    QString msg = ui->textEdit->toPlainText();
-//    if(ui->listWidget->count()%2 == 0) {//发送消息
-//        mymsg.setAll(1,1,2,"hello");
-//        ui->textEdit->setText("");
-//        sendMsg(mymsg);
-//    } else {
-//        show_recvMessage(msg);
-//    }
     //实际发消息
     QString content = ui->textEdit->toPlainText();
-    show_sendMessage(content);
-    if(Chat_type == 1)
-        sendMsg(ChatMsg(1,My_ID,Friend_ID,content));
+    ChatMsg msg;
+    if(Chat_type == Chat_SingleChat)
+        msg = ChatMsg(Chat_SingleChat,My_ID,Friend_ID,content);
     else
-        sendMsg(ChatMsg(8,My_ID,Friend_ID,content));
-    SaveChatToLocal(Friend_ID,ChatMsg(1,My_ID,Friend_ID,content));
+        msg = ChatMsg(Chat_GroupChat,My_ID,Friend_ID,content);
+    sendMsg(msg);
+    show_message(msg,QNChatMessage::User_Me);
+    ui->textEdit->setText("");
+    SaveChatToLocal(Friend_ID,msg);
     ui->listWidget->setCurrentRow(ui->listWidget->count()-1);
     ui->textEdit->clear();
 
 }
 
-//显示发送的消息
-void MainWindow::show_sendMessage(QString content)
+void MainWindow::show_message(ChatMsg msg, QNChatMessage::User_Type type)
 {
-    //先放这
-    QString time = QString::number(QDateTime::currentDateTime().toTime_t()); //时间戳
-    ui->textEdit->setText("");
-
-
-    qDebug()<<"addMessage" << content << time << ui->listWidget->count();
-    dealMessageTime(time);
-
-    QNChatMessage* messageW = new QNChatMessage(ui->listWidget->parentWidget());
-    QListWidgetItem* item = new QListWidgetItem(ui->listWidget);
-    dealMessage(messageW, item, content, time, QNChatMessage::User_Me);
-}
-
-// 显示接收的消息
-void MainWindow::show_recvMessage(QString content)
-{
-    //时间先放这
-    QString time = QString::number(QDateTime::currentDateTime().toTime_t()); //时间戳
+    QString time = msg.getSendTime(), content = msg.getContent();
     if(content != "") {
         dealMessageTime(time);
-
         QNChatMessage* messageW = new QNChatMessage(ui->listWidget->parentWidget());
         QListWidgetItem* item = new QListWidgetItem(ui->listWidget);
-        dealMessage(messageW, item, content, time, QNChatMessage::User_She);
+        dealMessage(messageW, item, content, time, type);
     }
 }
 
@@ -177,32 +131,46 @@ void MainWindow::recvMsg(){
     mymsg.toChatMsg(myarray);
 
     //如果是要显示的消息
-    if(mymsg.getType() == 1)
+    if(mymsg.getType() == Chat_SingleChat)
     {
         if(Friend_ID == mymsg.getSender())
-            show_recvMessage(mymsg.getContent());
+            show_message(mymsg,QNChatMessage::User_She);
         SaveChatToLocal(mymsg.getSender(),mymsg);
     }
-    else if(mymsg.getType() == 4)
+    else if(mymsg.getType() == Chat_AddFriend)
     {
-        QFile file("./added_friend.txt");
+        //添加失败
+        if(mymsg.getReceiver() == 0){
+            AddFail* addui = new AddFail();
+            addui->show();
+            return;
+        }
+
+
+        addsuccess *m = new addsuccess();
+        m->show();
+        QString prefix("./");
+        QString re = QString::number(My_ID);
+        QString suffix("_added_friend.txt");
+        QString filena = prefix+re+suffix;
+        QFile file(filena);
         if(file.open(QIODevice::WriteOnly|QIODevice::Append) == true) {
                          QTextStream twrite1(&file);
                          twrite1 << mymsg.getContent() << endl << mymsg.getReceiver() << endl;
         }
     }
     //群聊
-    else if(mymsg.getType() == 8){
+    else if(mymsg.getType() == Chat_GroupChat){
         if(Friend_ID == mymsg.getReceiver())
-            show_recvMessage(mymsg.getContent());
+            show_message(mymsg,QNChatMessage::User_She);
         SaveChatToLocal(mymsg.getReceiver(),mymsg);
     }
     //窗口抖动
-    else if(mymsg.getType() == 7){
+    else if(mymsg.getType() == Chat_Shake){
         shakeWindow();
         if(Friend_ID == mymsg.getSender())
-            show_recvMessage("发送了一个窗口抖动");
-        mymsg.setType(1);
+            show_message(mymsg,QNChatMessage::User_She);
+        mymsg.setType(Chat_SingleChat);
         SaveChatToLocal(mymsg.getSender(),mymsg);
     }
     qDebug()<< "接收到的消息:" << myarray;
@@ -339,13 +307,22 @@ void MainWindow::recvFromChooseAdd(int tag){
 }
 
 void MainWindow::getFriendName(QString name){
-    ChatMsg msg = ChatMsg(4,My_ID,0,name);
+    ChatMsg msg = ChatMsg(Chat_AddFriend,My_ID,0,name);
     myclient->sendMsg(msg.toQString());
 }
 
-void MainWindow::sendServerGroup(QString name){
-    int groupId = name.toInt();
-    ChatMsg msg = ChatMsg(5,My_ID,groupId,"11");
+void MainWindow::sendServerGroup(QString GroupID){
+    QString prefix("./");
+    QString re = QString::number(My_ID);
+    QString suffix("_added_group.txt");
+    QString filena = prefix+re+suffix;
+    QFile file(filena);//将群聊ID列表存在本地
+    if(file.open(QIODevice::WriteOnly|QIODevice::Append) == true) {
+                     QTextStream twrite1(&file);
+                     twrite1 << GroupID <<endl;
+    }
+    int groupId = GroupID.toInt();
+    ChatMsg msg = ChatMsg(Chat_AddGroup,My_ID,groupId,"11");
     myclient->sendMsg(msg.toQString());
 }
 
@@ -354,7 +331,11 @@ void MainWindow::on_singleButton_clicked()//显示好友列表
     Chat_type = 1;
     ui->friendList->clear();
     ui->friendList->setFixedWidth(300);
-    QFile file0("./added_friend.txt");
+    QString prefix("./");
+    QString re = QString::number(My_ID);
+    QString suffix("_added_friend.txt");
+    QString filena = prefix+re+suffix;
+    QFile file0(filena);
     file0.open(QIODevice::ReadOnly);
     QTextStream tread(&file0);
     while(!tread.atEnd()){
@@ -377,7 +358,11 @@ void MainWindow::on_moreButton_clicked()//显示群聊列表
     Chat_type = 2;
     ui->friendList->clear();
     ui->friendList->setFixedWidth(300);
-    QFile file0("./added_group.txt");
+    QString prefix("./");
+    QString re = QString::number(My_ID);
+    QString suffix("_added_group.txt");
+    QString filena = prefix+re+suffix;
+    QFile file0(filena);
     file0.open(QIODevice::ReadOnly);
     QTextStream tread(&file0);
     while(!tread.atEnd()){
@@ -394,6 +379,7 @@ void MainWindow::on_moreButton_clicked()//显示群聊列表
     }
 }
 
+//实现窗口抖动
 void MainWindow::shakeWindow()
 {
     pShakeAnimation= new QPropertyAnimation(this,"pos");
@@ -421,9 +407,9 @@ void MainWindow::shakeWindow()
 
 void MainWindow::on_shakebtn_clicked()
 {
-    QString content = "发送了一个窗口抖动";
-    show_sendMessage(content);
-    sendMsg(ChatMsg(1,My_ID,Friend_ID,content));
+    ChatMsg msg = ChatMsg(Chat_SingleChat,My_ID,Friend_ID,"发送了一个窗口抖动");
+    show_message(msg,QNChatMessage::User_Me);
+    sendMsg(msg);
     ui->listWidget->setCurrentRow(ui->listWidget->count()-1);
     ui->textEdit->clear();
 
@@ -479,8 +465,12 @@ void MainWindow::on_friendList_itemClicked(QListWidgetItem *item)
     this->ui->listWidget->clear();
     if(Chat_type == 1){
         QString FrdName = item->text();
-        qint32 tmp_ID;
-        QFile file0("./added_friend.txt");
+        qint32 tmp_ID=0;
+        QString prefix("./");
+        QString re = QString::number(My_ID);
+        QString suffix("_added_friend.txt");
+        QString filena = prefix+re+suffix;
+        QFile file0(filena);
         file0.open(QIODevice::ReadOnly);
         QTextStream tread(&file0);
         while(!tread.atEnd()){
@@ -504,7 +494,11 @@ void MainWindow::on_friendList_itemDoubleClicked(QListWidgetItem *item)
 {
     if(Chat_type == 1){
         QString Frd = item->text();
-        QFile file0("./added_friend.txt");
+        QString prefix("./");
+        QString re1 = QString::number(My_ID);
+        QString suffix("_added_friend.txt");
+        QString filena = prefix+re1+suffix;
+        QFile file0(filena);
         QList<QString> tmp;
         file0.open(QIODevice::ReadOnly|QIODevice::WriteOnly|QIODevice::Append);
         QTextStream tread(&file0);
@@ -520,8 +514,10 @@ void MainWindow::on_friendList_itemDoubleClicked(QListWidgetItem *item)
             }
         }
         file0.close();
-        remove("./added_friend.txt");
-        QFile file1("./added_friend.txt");
+        std::string str = filena.toStdString();
+        const char* ch = str.c_str();
+        remove(ch);
+        QFile file1(filena);
         QTextStream twrite(&file1);
         QList<QString>::iterator it = tmp.begin();
         while(it!=tmp.end()){
@@ -532,7 +528,11 @@ void MainWindow::on_friendList_itemDoubleClicked(QListWidgetItem *item)
     }
     else{
         QString GrpId = item->text();
-        QFile file2("./added_group");
+        QString prefix("./");
+        QString re2 = QString::number(My_ID);
+        QString suffix("_added_group.txt");
+        QString filena1 = prefix+re2+suffix;
+        QFile file2(filena1);//将群聊ID列表存在本地
         QList<QString> tmp1;
         file2.open(QIODevice::ReadOnly|QIODevice::WriteOnly|QIODevice::Append);
         QTextStream tread1(&file2);
@@ -544,8 +544,10 @@ void MainWindow::on_friendList_itemDoubleClicked(QListWidgetItem *item)
             }
         }
         file2.close();
-        remove("./added_group.txt");
-        QFile file3("./added_group.txt");
+        std::string str = filena1.toStdString();
+        const char* ch = str.c_str();
+        remove(ch);
+        QFile file3(filena1);
         QTextStream twrite(&file3);
         QList<QString>::iterator it1 = tmp1.begin();
         while(it1!=tmp1.end()){

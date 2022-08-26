@@ -1,18 +1,29 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "Network/tcpclient.h"
-#include "chatmessage/qnchatmessage.h"
-#include <Entity/userinfo.h>
+
 #include <QListWidgetItem>
 #include <QMainWindow>
 #include <QMouseEvent>
 #include <QToolButton>
 #include <QPropertyAnimation>
+#include <QSize>
+#include <QDateTime>
+#include <QDebug>
+
+#include "chatmessage/qnchatmessage.h"
+#include "Network/tcpclient.h"
 #include "Entity/chatmsg.h"
+#include "Entity/userinfo.h"
+#include "Entity/friendlist.h"
 #include "GUI/chooseadd.h"
 #include "GUI/addfriend.h"
 #include "GUI/addgroup.h"
+#include "GUI/addfail.h"
+#include "GUI/addsuccess.h"
+
+
+
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +40,7 @@ public:
 
     void show_sendMessage(QString content);
     void show_recvMessage(QString content);
+    void show_message(ChatMsg msg, QNChatMessage::User_Type type);
 
     void dealMessage(QNChatMessage* messageW, QListWidgetItem* item, QString text, QString time, QNChatMessage::User_Type type);
     void dealMessageTime(QString curMsgTime);
@@ -86,7 +98,7 @@ public slots:
 
     void getFriendName(QString name);
 
-    void sendServerGroup(QString name);
+    void sendServerGroup(QString GroupID);
 
 private:
     Ui::MainWindow* ui;

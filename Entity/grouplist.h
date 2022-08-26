@@ -2,7 +2,7 @@
 #define GROUPLIST_H
 #include <QObject>
 #include <QList>
-#include <./Entity/added_group.h>
+#include "Entity/added_group.h"
 class grouplist
 {
 public:

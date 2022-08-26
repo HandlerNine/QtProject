@@ -1,9 +1,14 @@
 #ifndef TCPCLIENT_H
 #define TCPCLIENT_H
-#include<QTcpSocket>
+
+#include <QDataStream>
+#include <QTcpSocket>
 #include <QHostAddress>
 #include <QString>
-#include<QDebug>
+#include <QDebug>
+
+#include "qhostaddress.h"
+
 
 
 class TcpClient: public QTcpSocket
