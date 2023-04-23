@@ -54,6 +54,9 @@ border:1px groove gray;</string>
        <height>50</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background:transparent;</string>
+     </property>
      <property name="text">
       <string>...</string>
      </property>
@@ -69,6 +72,9 @@ border:1px groove gray;</string>
        <width>50</width>
        <height>50</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:transparent;</string>
      </property>
      <property name="text">
       <string>+</string>
@@ -86,6 +92,9 @@ border:1px groove gray;</string>
        <height>50</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background:transparent;</string>
+     </property>
      <property name="text">
       <string>...</string>
      </property>
@@ -101,6 +110,9 @@ border:1px groove gray;</string>
        <width>50</width>
        <height>50</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:transparent;</string>
      </property>
      <property name="text">
       <string>...</string>
@@ -128,16 +140,6 @@ border:1px groove gray;</string>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QTextEdit" name="searchEdit">
-     <property name="geometry">
-      <rect>
-       <x>15</x>
-       <y>30</y>
-       <width>220</width>
-       <height>20</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QListWidget" name="friendList">
      <property name="geometry">
       <rect>
@@ -148,7 +150,117 @@ border:1px groove gray;</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border:1px groove gray;</string>
+      <string notr="true">background:transparent;
+</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>31</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Courier New</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:transparent;</string>
+     </property>
+     <property name="text">
+      <string>ID:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>50</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Courier New</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:transparent;</string>
+     </property>
+     <property name="text">
+      <string>Account:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_id">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>20</y>
+       <width>51</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_account">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>50</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Courier New</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="Line" name="line">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>90</y>
+       <width>251</width>
+       <height>1</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>微软雅黑</family>
+       <pointsize>9</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(0, 0, 0);</string>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </widget>
@@ -201,38 +313,6 @@ border:1px groove gray;</string>
      <property name="styleSheet">
       <string notr="true">
 border:1px groove gray;</string>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="emojiButton">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>590</y>
-       <width>47</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="autoRaise">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="picButton">
-     <property name="geometry">
-      <rect>
-       <x>47</x>
-       <y>590</y>
-       <width>47</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="autoRaise">
-      <bool>true</bool>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton">
@@ -290,6 +370,55 @@ border:1px groove gray;</string>
      </property>
      <property name="text">
       <string>-</string>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="shakebtn">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>590</y>
+       <width>61</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Courier</family>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>Shake</string>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="FixHeadbtn">
+     <property name="geometry">
+      <rect>
+       <x>61</x>
+       <y>590</y>
+       <width>101</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>幼圆</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>疯狂星期四</string>
      </property>
      <property name="autoRaise">
       <bool>true</bool>

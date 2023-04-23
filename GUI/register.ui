@@ -24,9 +24,9 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>570</x>
+     <x>550</x>
      <y>50</y>
-     <width>201</width>
+     <width>271</width>
      <height>31</height>
     </rect>
    </property>
@@ -48,9 +48,9 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>500</x>
+     <x>480</x>
      <y>120</y>
-     <width>31</width>
+     <width>51</width>
      <height>21</height>
     </rect>
    </property>
@@ -67,9 +67,9 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>500</x>
+     <x>480</x>
      <y>180</y>
-     <width>31</width>
+     <width>51</width>
      <height>21</height>
     </rect>
    </property>
@@ -86,9 +86,9 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>500</x>
+     <x>473</x>
      <y>240</y>
-     <width>54</width>
+     <width>81</width>
      <height>21</height>
     </rect>
    </property>
@@ -120,8 +120,8 @@
     <rect>
      <x>580</x>
      <y>120</y>
-     <width>181</width>
-     <height>20</height>
+     <width>231</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -145,8 +145,8 @@ font-family:&quot;Courier New&quot;;
     <rect>
      <x>580</x>
      <y>180</y>
-     <width>181</width>
-     <height>20</height>
+     <width>231</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -160,6 +160,9 @@ border-bottom-width:2px;
 border-left-width:0px;
 font-family:&quot;Courier New&quot;;
 </string>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
    </property>
    <property name="placeholderText">
     <string>Your Password.</string>
@@ -170,8 +173,8 @@ font-family:&quot;Courier New&quot;;
     <rect>
      <x>580</x>
      <y>240</y>
-     <width>181</width>
-     <height>20</height>
+     <width>231</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -185,6 +188,9 @@ border-bottom-width:2px;
 border-left-width:0px;
 font-family:&quot;Courier New&quot;;
 </string>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
    </property>
    <property name="placeholderText">
     <string>Confirm Your Password.</string>

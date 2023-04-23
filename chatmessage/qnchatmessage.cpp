@@ -1,22 +1,4 @@
-/*-------------------------------------------------
-#
-# Project created by QtCreator
-# Author: 沙振宇
-# CreateTime: 2018-07-23
-# UpdateTime: 2019-12-27
-# Info: Qt5气泡式聊天框——QListWidget+QPainter实现
-# Url:https://shazhenyu.blog.csdn.net/article/details/81505832
-# Github:https://github.com/ShaShiDiZhuanLan/Demo_MessageChat_Qt
-#
-#-------------------------------------------------*/
 #include "qnchatmessage.h"
-#include <QFontMetrics>
-#include <QPaintEvent>
-#include <QDateTime>
-#include <QPainter>
-#include <QMovie>
-#include <QLabel>
-#include <QDebug>
 
 QNChatMessage::QNChatMessage(QWidget *parent) : QWidget(parent)
 {
@@ -28,8 +10,8 @@ QNChatMessage::QNChatMessage(QWidget *parent) : QWidget(parent)
 //    te_font.setLetterSpacing(QFont::PercentageSpacing, 100);          //300%,100为默认  //设置字间距%
 //    te_font.setLetterSpacing(QFont::AbsoluteSpacing, 0);             //设置字间距为3像素 //设置字间距像素值
     this->setFont(te_font);
-    m_leftPixmap = QPixmap(":/img/Customer Copy.png");
-    m_rightPixmap = QPixmap(":/img/CustomerService.png");
+    m_leftPixmap = QPixmap(":/img/his.png");
+    m_rightPixmap = QPixmap(":/img/me.png");
 
     m_loadingMovie = new QMovie(this);
     m_loadingMovie->setFileName(":/img/loading4.gif");
@@ -121,7 +103,6 @@ QSize QNChatMessage::getRealString(QString src)
             nMaxWidth = m_textWidth;
             int size = m_textWidth / fm.width(" ");
             int num = fm.width(value) / m_textWidth;
-            int ttmp = num*fm.width(" ");
             num = ( fm.width(value) ) / m_textWidth;
             nCount += num;
             QString temp = "";

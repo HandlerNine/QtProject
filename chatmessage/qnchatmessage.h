@@ -1,18 +1,14 @@
-/*-------------------------------------------------
-#
-# Project created by QtCreator
-# Author: 沙振宇
-# CreateTime: 2018-07-23
-# UpdateTime: 2019-12-27
-# Info: Qt5气泡式聊天框——QListWidget+QPainter实现
-# Url:https://shazhenyu.blog.csdn.net/article/details/81505832
-# Github:https://github.com/ShaShiDiZhuanLan/Demo_MessageChat_Qt
-#
-#-------------------------------------------------*/
 #ifndef QNCHATMESSAGE_H
 #define QNCHATMESSAGE_H
 
 #include <QWidget>
+#include <QFontMetrics>
+#include <QPaintEvent>
+#include <QDateTime>
+#include <QPainter>
+#include <QMovie>
+#include <QLabel>
+#include <QDebug>
 
 class QPaintEvent;
 class QPainter;
@@ -67,7 +63,7 @@ private:
     QPixmap m_rightPixmap;
     QLabel* m_loading = Q_NULLPTR;
     QMovie* m_loadingMovie = Q_NULLPTR;
-    bool m_isSending = false;
+    bool m_isSending = true;
 };
 
 #endif // QNCHATMESSAGE_H
